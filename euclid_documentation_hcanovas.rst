@@ -70,7 +70,10 @@ If you use public Euclid data in your paper, please take note of our
 `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data.
 
+Please note that:
 
+* To reduce verbosity, all the examples listed below have been trimmed and only the first 3 (or 5) output lines are displayed.
+* It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
 .. _IVOA: http://www.ivoa.net
