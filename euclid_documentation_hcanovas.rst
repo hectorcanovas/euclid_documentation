@@ -7,6 +7,8 @@ ESA EUCLID Archive (`astroquery.esa.euclid`)
    :local:
    :depth: 3
 
+
+
 `Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
 The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
 creating a detailed map of the large-scale structure of the Universe across space and time by observing billions of galaxies
@@ -34,7 +36,7 @@ associated with each observation are organized by Observation ID in the archive.
 imaging into merged mosaics, which can contain multiple different observations. All products associated with these
 mosaics are organized by Tile ID in the archive.
 
-This package provides the astroquery interface to the metadata and datasets provided by the 
+This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
 `European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
 TAP+ is an extension of Table Access Protocol (TAP_)
 specified by the International Virtual Observatory Alliance (IVOA_).
@@ -64,17 +66,16 @@ On top of that, this package provides two access modes:
   * Persistence of uploaded tables: a user can upload a table in a private space.
     These tables can be used in queries as well as in cross-matches operations.
 
-
 If you use public Euclid data in your paper, please take note of our
 `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data.
+
+
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
 .. _IVOA: http://www.ivoa.net
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 
-
-This python module provides an Astroquery API access.
 
 ========
 Examples
