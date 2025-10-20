@@ -198,60 +198,6 @@ To load only a table (TAP+ capability) and inspect its columns:
   ...
 
 
-1.2. Getting product data
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get the list of products associated with a given Euclid observation_id or tile_index (for mosaic):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> product_list_results = Euclid.get_product_list(tile_index="102018211", product_type="DpdMerBksMosaic")
-  >>> print("Found", len(product_list_results), "results")
-  Found 12 results
-  >>> print(product_list_results)
-                                      file_name                                      mosaic_product_oid tile_index instrument_name filter_name category second_type     ra       dec   technique
-                                        str255                                             int64          int64         str255        str255    str255     str255    float64   float64   str255
-  ---------------------------------------------------------------------------------- ------------------ ---------- --------------- ----------- -------- ----------- ---------- ------- ---------
-  EUC_MER_BGSUB-MOSAIC-DES-I_TILE102018211-31E2C9_20241018T143048.358037Z_00.00.fits               1399  102018211           DECAM     DECAM_i  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-    EUC_MER_BGSUB-MOSAIC-VIS_TILE102018211-ACBD03_20241018T142710.276838Z_00.00.fits               1395  102018211             VIS         VIS  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-G_TILE102018211-D9D163_20241018T143010.768685Z_00.00.fits               1394  102018211           DECAM     DECAM_g  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  ...
-
-The method returns a list of products as an `~astropy.table.Table`. It is also possible to search by observation_id, but not by both parameters simultaneously.
-
-It is possible to retrieve LE3 data (scientific data) by observation_id or tile_index (but not by both simultaneously) and/or for different categories, groups and product types. The available values
-for these parameters are summarized in section :ref:`appendix`.
-
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> le3_product_list = Euclid.get_scientific_product_list(tile_index=22)
-  >>> print("Found", len(le3_product_list), "results")
-  Found 3 results
-  >>> print(le3_product_list)
-  basic_download_data_oid  product_type                            product_id                          observation_id_list tile_index_list patch_id_list filter_name
-  ----------------------- -------------- ------------------------------------------------------------- ------------------- --------------- ------------- -----------
-                    47191 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R5-output_tiles-27                  {}            {22}            {}
-                    47132 DpdLE3clCLTile PPO_REGREPROC1_R2_CLTEST_R0_CLTILINGPOLYHR_R2-output_tiles-27                  {}            {22}            {}
-                    47233 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R6-output_tiles-27                  {}            {22}            {}
-
-
-In the following example, for the Clusters of Galaxies category, and the group GrpCatalog, we retrieve all the DET-CL AMICO auxiliary Data Product products (DpdLE3clAmicoAux):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> results = euclid.get_scientific_product_list(category='Clusters of Galaxies', group='GrpCatalog', product_type='DpdLE3clAmicoAux')
-  >>> print("Found", len(le3_product_list), "results")
-  Found 2 results
-  >>> print(le3_product_list)
-  basic_download_data_oid   product_type                      product_id                    observation_id_list tile_index_list patch_id_list filter_name
-  ----------------------- ---------------- ------------------------------------------------ ------------------- --------------- ------------- -----------
-                    47257 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R3-amico_aux-0                  {}              {}            {}
-                    47258 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R7-amico_aux-0                  {}              {}            {}
-
 
 1.3. Cone search
 ^^^^^^^^^^^^^^^^
@@ -483,85 +429,14 @@ Note: to obtain the current location, type:
   /Current/directory/path
 
 
-
-2. Authenticated access
------------------------
-
-Authenticated users are able to access to TAP+ capabilities (shared tables, persistent jobs, etc.) In order to
-authenticate a user, ``login`` method must be called. After a successful authentication, the user will be authenticated
-until the ``logout`` method is called.
-
-All previous methods (``query_object``, ``cone_search``, ``load_table``, ``load_tables``, ``launch_job``) explained for
-non authenticated users are applicable for authenticated ones.
-
-The main differences are:
-
-* Asynchronous results are kept at the server side forever (until the user decides to remove one of them).
-* Users can access to share tables.
-
-
-2.1. Login/Logout
-^^^^^^^^^^^^^^^^^
-
-There are several ways to log in to the Euclid archive.
-
-**Login through graphic interface**
-
-*Note: The Python Tkinter module is required to use the login_gui method.*
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> Euclid.login_gui()
-
-
-**Login through command line**
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> Euclid.login()
-  >>> User: user
-  >>> Password: pwd (not visible)
-
-or
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> Euclid.login(user='userName', password='userPassword')
-
-
-It is possible to use a file where the credentials are stored:
-
-*The file must contain user and password in two different lines.*
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> Euclid.login(credentials_file='my_credentials_file')
-
-To perform a logout:
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.logout()
-
-
-2.2. Getting public tables metadata
+1.2. Getting product data
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To get the list of products associated with a given EUCLID observation_id or tile_index (for mosaic):
+To get the list of products associated with a given Euclid observation_id or tile_index (for mosaic):
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> product_list_results = Euclid.get_product_list(tile_index="102018211", product_type="DpdMerBksMosaic")
   >>> print("Found", len(product_list_results), "results")
   Found 12 results
@@ -574,8 +449,44 @@ To get the list of products associated with a given EUCLID observation_id or til
   EUC_MER_BGSUB-MOSAIC-DES-G_TILE102018211-D9D163_20241018T143010.768685Z_00.00.fits               1394  102018211           DECAM     DECAM_g  SCIENCE         SKY 57.9990741   -51.5     IMAGE
   ...
 
-The method returns a list of products as an `~astropy.table.Table`.
+The method returns a list of products as an `~astropy.table.Table`. It is also possible to search by observation_id, but not by both parameters simultaneously.
 
+It is possible to retrieve LE3 data (scientific data) by observation_id or tile_index (but not by both simultaneously) and/or for different categories, groups and product types. The available values
+for these parameters are summarized in section :ref:`appendix`.
+
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> le3_product_list = Euclid.get_scientific_product_list(tile_index=22)
+  >>> print("Found", len(le3_product_list), "results")
+  Found 3 results
+  >>> print(le3_product_list)
+  basic_download_data_oid  product_type                            product_id                          observation_id_list tile_index_list patch_id_list filter_name
+  ----------------------- -------------- ------------------------------------------------------------- ------------------- --------------- ------------- -----------
+                    47191 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R5-output_tiles-27                  {}            {22}            {}
+                    47132 DpdLE3clCLTile PPO_REGREPROC1_R2_CLTEST_R0_CLTILINGPOLYHR_R2-output_tiles-27                  {}            {22}            {}
+                    47233 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R6-output_tiles-27                  {}            {22}            {}
+
+
+In the following example, for the Clusters of Galaxies category, and the group GrpCatalog, we retrieve all the DET-CL AMICO auxiliary Data Product products (DpdLE3clAmicoAux):
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> results = euclid.get_scientific_product_list(category='Clusters of Galaxies', group='GrpCatalog', product_type='DpdLE3clAmicoAux')
+  >>> print("Found", len(le3_product_list), "results")
+  Found 2 results
+  >>> print(le3_product_list)
+  basic_download_data_oid   product_type                      product_id                    observation_id_list tile_index_list patch_id_list filter_name
+  ----------------------- ---------------- ------------------------------------------------ ------------------- --------------- ------------- -----------
+                    47257 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R3-amico_aux-0                  {}              {}            {}
+                    47258 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R7-amico_aux-0                  {}              {}            {}
+
+
+
+2.2. Getting products
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It is possible to download a product given its file name or product id:
 
@@ -699,6 +610,80 @@ Below is the equivalent version but copying arguments manually (for clarity).
   Cutout saved at ['example_outputs/cutouts/astroquery_cutout_example.fits']
 
 
+
+
+
+
+2. Authenticated access
+-----------------------
+
+Authenticated users are able to access to TAP+ capabilities (shared tables, persistent jobs, etc.) In order to
+authenticate a user, ``login`` method must be called. After a successful authentication, the user will be authenticated
+until the ``logout`` method is called.
+
+All previous methods (``query_object``, ``cone_search``, ``load_table``, ``load_tables``, ``launch_job``) explained for
+non authenticated users are applicable for authenticated ones.
+
+The main differences are:
+
+* Asynchronous results are kept at the server side forever (until the user decides to remove one of them).
+* Users can access to share tables.
+
+
+2.1. Login/Logout
+^^^^^^^^^^^^^^^^^
+
+There are several ways to log in to the Euclid archive.
+
+**Login through graphic interface**
+
+*Note: The Python Tkinter module is required to use the login_gui method.*
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> from astroquery.esa.euclid import Euclid
+  >>> Euclid.login_gui()
+
+
+**Login through command line**
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> from astroquery.esa.euclid import Euclid
+  >>> Euclid.login()
+  >>> User: user
+  >>> Password: pwd (not visible)
+
+or
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> from astroquery.esa.euclid import Euclid
+  >>> Euclid.login(user='userName', password='userPassword')
+
+
+It is possible to use a file where the credentials are stored:
+
+*The file must contain user and password in two different lines.*
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> from astroquery.esa.euclid import Euclid
+  >>> Euclid.login(credentials_file='my_credentials_file')
+
+To perform a logout:
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> Euclid.logout()
+
+
+
 2.4. Listing shared tables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -741,7 +726,7 @@ login name is 'joe', the database schema is 'user_joe'. Your uploaded table can 
 referenced as 'user_joe.table_name'
 
 2.5.1. Uploading table from URL
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 An already generated VOTable, accessible through a URL, can be uploaded to Euclid archive.
 
@@ -778,7 +763,7 @@ surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
 
 
 2.5.2. Uploading table from file
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 A file containing a table can be uploaded to the user private area. Only a file associated to any of the formats described in
 https://docs.astropy.org/en/stable/io/unified.html#built-in-table-readers-writers, and automatically identified by its suffix
@@ -814,7 +799,7 @@ surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
 
 
 2.5.3. Uploading table from an astropy Table
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 A votable can be uploaded to the server in order to be used in a query. Your schema name will be automatically added to the provided table name.
 
@@ -846,7 +831,7 @@ surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
 
 
 2.5.4. Uploading table from job
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 The results generated by an *asynchronous* job (from a query executed in the Euclid archive) can be
 ingested in a table in the user's private area.
@@ -957,76 +942,69 @@ group with users, and share your table to that group. Then, any user belonging t
 will be able to access your shared table in a query.
 
 2.8.1. Creating a group
-^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_group_create(group_name="my_group", description="description")
 
 2.8.2. Removing a group
-^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_group_delete(group_name="my_group")
 
 2.8.3. Listing groups
-^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> groups = Euclid.load_groups()
   >>> for group in groups:
   ...     print(group.title)
 
 2.8.4. Adding users to a group
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_group_add_user(group_name="my_group",user_id="<user_login_name")
 
 2.8.5. Removing users from a group
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_group_delete_user(group_name="my_group",user_id="<user_login_name>")
 
 2.8.6. Sharing a table to a group
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_table(group_name="my_group",
   ...                  table_name="user_<user_login_name>.my_table",
   ...                  description="description")
 
 2.8.7. Stop sharing a table
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> Euclid.share_table_stop(table_name="user_<user_login_name>.my_table", group_name="my_group")
 
@@ -1043,7 +1021,6 @@ The cross-match can be executed in one single step by the following method
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.euclid import Euclid
   >>> Euclid.login()
   >>> full_qualified_table_name = 'user_<your_login_name>.my_sources'
   >>> job = Euclid.cross_match_basic(table_a_full_qualified_name=full_qualified_table_name, table_a_column_ra='raj2000',
@@ -1092,7 +1069,6 @@ To find out the resources associated with a given source:
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login()
   >>> ids=["2707008224650763513"]
   >>> datalink = Euclid.get_datalinks(ids=ids)
@@ -1123,17 +1099,7 @@ The query below retrieves a random sample of Euclid sources having spectra.
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2272115578693        3 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       355 267.261146414289 2672611464662272115              66161               1
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190   66.230432248046        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       557 267.319331443563 2673193314662304322              66179               1
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2259968885041        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       679  267.39974379438 2673997437662259968              66185               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2258832168495        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...      1132 267.610835873887 2676108358662258832              66216               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2267511367135        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...      1561  267.82310164423 2678231016662267511              66245               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2306295177874        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...      1608 267.840533186228 2678405331662306295              66249               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2258188827905        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...      1672 267.868196199085 2678681961662258188              66254               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2302887578947        3 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...      2121 268.121362468449 2681213624662302887              66283               1
-                  161                        6168 /data/euclid_q1/Q1_R1/SIR/102159190  66.2180692869346        3 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:08.615108Z.fits ...       320 267.232306764858 2672323067662180692              65811               1
-                  161                        6168 /data/euclid_q1/Q1_R1/SIR/102159190  66.2163449302499        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:08.615108Z.fits ...       678 267.390646814535 2673906468662163449              65836               1
-                  161                        6168 /data/euclid_q1/Q1_R1/SIR/102159190  66.2177524156252        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:08.615108Z.fits ...       787 267.444077136233 2674440771662177524              65843               1
                   ...                         ...                                 ...               ...      ...                                                           ... ...       ...              ...                 ...                ...             ...
-                  180                        7517 /data/euclid_q1/Q1_R1/SIR/102042287 -29.5639947358353        2 EUC_SIR_W-COMBSPEC_102042287_2024-11-05T17:42:15.562399Z.fits ...        58 54.5720898250079 -545720898295639947             264701               1
-                  161                        6203 /data/euclid_q1/Q1_R1/SIR/102159190  66.2431257852549        2 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:34:19.265698Z.fits ...        88 267.227375121186 2672273751662431257              67437               1
   Length = 2000 rows
   >>> print("source ids:")
   >>> print(results['source_id'])
@@ -1141,11 +1107,7 @@ The query below retrieves a random sample of Euclid sources having spectra.
   2672611464662272115
   2673193314662304322
   2673997437662259968
-  2676108358662258832
                   ...
-  2671568248661962869
-  2673081407661969815
-  2673195636661993590
 
 
 The following example shows how to retrieve the DataLink products (1D Spectra) associated with the previous sources (IDs).
