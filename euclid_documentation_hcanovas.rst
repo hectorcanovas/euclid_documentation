@@ -37,11 +37,8 @@ This package provides the astroquery interface to the metadata and datasets prov
 TAP+ is an extension of Table Access Protocol (TAP_)
 specified by the International Virtual Observatory Alliance (IVOA_).
 
-The TAP_ query language is Astronomical Data Query Language
-(ADQL_), which is similar to Structured
-Query Language (SQL), widely used to query databases.
-
-TAP provides two operation modes: 
+The TAP_ query language is Astronomical Data Query Language (ADQL_), which is similar to Structured
+Query Language (SQL), widely used to query databases. TAP_ provides two operation modes: 
 
 * Synchronous: the response to the request will be generated as soon as the request received by the server.
   (do not use this method for queries that generate a large amount of results).
@@ -50,7 +47,7 @@ TAP provides two operation modes:
   Once the job is finished, the results can be retrieved.
 
 
-ESA EUCLID TAP+ server provides two access modes: 
+On top of that, this package provides two access modes: 
 
 * Public: this is the standard TAP_ access.
   A user can execute ADQL_ queries and upload tables
@@ -92,6 +89,7 @@ It is highly recommended checking the status of Euclid TAP before executing this
 
 This method will retrieve the same warning messages shown in EUCLID Science Archive with information about service degradation.
 
+**Note:** to reduce verbosity, all the examples listed in the page has been trimmed and only the first 3 (or 5) output lines are displayed.
 
 
 0. Euclid science archive systems
@@ -134,13 +132,13 @@ makes use of the *PDR* environment. In order to make use of a different one, it 
 The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 
 
-1. Non authenticated access
+1. Public access
 ---------------------------
 
 1.1. Getting public tables metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Table and column metadata are specified by IVOA TAP_ recommendation (to access to the actual data, an ADQL query must be executed).
+Table and column metadata are specified by IVOA_ TAP_ recommendation (to access to the actual data, an ADQL query must be executed).
 
 To load only table names metadata (TAP+ capability):
 
@@ -157,17 +155,7 @@ To load only table names metadata (TAP+ capability):
   sedm.raw_detector
   sedm.raw_frame
   sedm.raw_quadrant
-  sedm.aux_calibrated
-  sedm.aux_mosaic
-  sedm.aux_stacked
-  sedm.basic_download_data
-  sedm.calibrated_detectors
-  sedm.calibrated_frame
-  sedm.column_values
-  sedm.combined_spectra
-  ...
-  tap_config.coord_sys
-  tap_config.properties
+    ...
   ...
 
 
@@ -198,15 +186,7 @@ To load only a table (TAP+ capability) and inspect its columns:
   crpix1
   crpix2
   crval1
-  crval2
-  detector_id
-  detector_oid
-  l1_raw_frame_oid
-  q1_oid
-  q2_oid
-  q3_oid
-  q4_oid
-  to_be_published
+  ...
 
 
 To get the list of products associated with a given Euclid observation_id or tile_index (for mosaic):
