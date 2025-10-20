@@ -1,1 +1,3 @@
-# euclid_documentation_v1
+# Goal: update Astroquery Euclid documentation
+
+Work in progress
