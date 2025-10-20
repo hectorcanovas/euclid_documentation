@@ -70,9 +70,15 @@ If you use public Euclid data in your paper, please take note of our
 `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data.
 
+
 Please note that:
 
-* To reduce verbosity, all the examples listed below have been trimmed and only the first 3 (or 5) output lines are displayed.
+* To reduce verbosity:
+  
+  * All the examples listed below have been trimmed and only the first 3 (or 5) output lines are displayed.
+
+  * The first line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. 
+
 * It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
@@ -95,7 +101,6 @@ It is highly recommended checking the status of Euclid TAP before executing this
 
 This method will retrieve the same warning messages shown in EUCLID Science Archive with information about service degradation.
 
-**Note:** to reduce verbosity, all the examples listed in the page has been trimmed and only the first 3 (or 5) output lines are displayed.
 
 
 0. Euclid science archive systems
