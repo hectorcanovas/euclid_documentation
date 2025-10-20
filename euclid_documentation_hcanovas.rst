@@ -34,12 +34,11 @@ mosaics are organized by Tile ID in the archive.
 
 This package provides the astroquery interface to the metadata and datasets provided by the 
 `European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
-TAP+ is an extension of Table Access Protocol (`TAP <http://www.ivoa.net/documents/TAP/>`_)
-specified by the International Virtual Observatory Alliance (`IVOA <http://www.ivoa.net>`_).
+TAP+ is an extension of Table Access Protocol (TAP_)
+specified by the International Virtual Observatory Alliance (IVOA_).
 
-
-The TAP query language is Astronomical Data Query Language
-(`ADQL <https://www.ivoa.net/documents/ADQL/20231215/index.html>`_), which is similar to Structured
+The TAP_ query language is Astronomical Data Query Language
+(ADQL_), which is similar to Structured
 Query Language (SQL), widely used to query databases.
 
 TAP provides two operation modes: 
@@ -53,8 +52,8 @@ TAP provides two operation modes:
 
 ESA EUCLID TAP+ server provides two access modes: 
 
-* Public: this is the standard `TAP <http://www.ivoa.net/documents/TAP/>`_ access.
-  A user can execute `ADQL <https://www.ivoa.net/documents/ADQL/20231215/index.html>`_ queries and upload tables
+* Public: this is the standard TAP_ access.
+  A user can execute ADQL_ queries and upload tables
   to be used in a query 'on-the-fly' (these tables will be removed once the query is executed). The results are
   available to any other user, and they will remain in the server for a limited space of time.
 
@@ -71,6 +70,9 @@ If you use public Euclid data in your paper, please take note of our
 `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data.
 
+.. _TAP: http://www.ivoa.net/documents/TAP/
+.. _IVOA: http://www.ivoa.net
+.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 
 
 This python module provides an Astroquery API access.
@@ -118,9 +120,6 @@ Survey) over the Euclid Deep Fields (EDFs): 20 deg\ :sup:`2` of the EDF North, 1
 The description of these data products can be found on the Data Product Definition Document (DPDD_)
 
 .. _DPDD: http://st-dm.pages.euclid-sgs.uk/data-product-doc/dm10/
-
-.. _TAP: https://www.ivoa.net/documents/TAP/
-.. _IVOA: https://www.ivoa.net
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 
 By default, the object *Euclid*
