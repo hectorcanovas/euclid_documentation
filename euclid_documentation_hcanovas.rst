@@ -66,10 +66,6 @@ On top of that, this package provides two access modes:
   * Persistence of uploaded tables: a user can upload a table in a private space.
     These tables can be used in queries as well as in cross-matches operations.
 
-If you use public Euclid data in your paper, please take note of our
-`guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
-to acknowledge and cite Euclid data.
-
 
 Please note that:
 
@@ -80,6 +76,10 @@ Please note that:
   * The first line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. 
 
 * It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
+
+
+Finally, please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
+to acknowledge and cite Euclid data if you use public Euclid data in your paper.
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
 .. _IVOA: http://www.ivoa.net
@@ -154,7 +154,6 @@ Table and column metadata are specified by IVOA_ TAP_ recommendation (to access 
 
 To load only table names metadata (TAP+ capability):
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   INFO: Retrieving tables... [astroquery.utils.tap.core]
   INFO: Parsing tables... [astroquery.utils.tap.core]
@@ -173,7 +172,6 @@ To load only table names metadata (TAP+ capability):
 
 To load all table metadata (TAP compatible):
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> tables = Euclid.load_tables()
   INFO: Retrieving tables... [astroquery.utils.tap.core]
   INFO: Parsing tables... [astroquery.utils.tap.core]
@@ -187,7 +185,6 @@ To load all table metadata (TAP compatible):
 
 To load only a table (TAP+ capability) and inspect its columns:
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> raw_detector_table = Euclid.load_table('sedm.raw_detector')
   >>> print(raw_detector_table) # doctest: +SKIP
   TAP Table name: sedm.raw_detector
@@ -201,12 +198,14 @@ To load only a table (TAP+ capability) and inspect its columns:
   ...
 
 
+1.2. Getting product data
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 To get the list of products associated with a given Euclid observation_id or tile_index (for mosaic):
 
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> product_list_results = Euclid.get_product_list(tile_index="102018211", product_type="DpdMerBksMosaic")
   >>> print("Found", len(product_list_results), "results")
   Found 12 results
@@ -217,12 +216,7 @@ To get the list of products associated with a given Euclid observation_id or til
   EUC_MER_BGSUB-MOSAIC-DES-I_TILE102018211-31E2C9_20241018T143048.358037Z_00.00.fits               1399  102018211           DECAM     DECAM_i  SCIENCE         SKY 57.9990741   -51.5     IMAGE
     EUC_MER_BGSUB-MOSAIC-VIS_TILE102018211-ACBD03_20241018T142710.276838Z_00.00.fits               1395  102018211             VIS         VIS  SCIENCE         SKY 57.9990741   -51.5     IMAGE
   EUC_MER_BGSUB-MOSAIC-DES-G_TILE102018211-D9D163_20241018T143010.768685Z_00.00.fits               1394  102018211           DECAM     DECAM_g  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-H_TILE102018211-42F1AD_20241018T142558.469987Z_00.00.fits               1396  102018211            NISP       NIR_H  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-J_TILE102018211-E044A1_20241018T142600.459089Z_00.00.fits               1393  102018211            NISP       NIR_J  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-Y_TILE102018211-E5CAE1_20241018T142558.172837Z_00.00.fits               1397  102018211            NISP       NIR_Y  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-R_TILE102018211-1078B7_20241018T142927.232351Z_00.00.fits               1401  102018211           DECAM     DECAM_r  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-Z_TILE102018211-83C32F_20241018T143526.104818Z_00.00.fits               1398  102018211           DECAM     DECAM_z  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-
+  ...
 
 The method returns a list of products as an `~astropy.table.Table`. It is also possible to search by observation_id, but not by both parameters simultaneously.
 
@@ -233,7 +227,6 @@ for these parameters are summarized in section :ref:`appendix`.
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> le3_product_list = Euclid.get_scientific_product_list(tile_index=22)
   >>> print("Found", len(le3_product_list), "results")
   Found 3 results
@@ -250,7 +243,6 @@ In the following example, for the Clusters of Galaxies category, and the group G
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> results = euclid.get_scientific_product_list(category='Clusters of Galaxies', group='GrpCatalog', product_type='DpdLE3clAmicoAux')
   >>> print("Found", len(le3_product_list), "results")
   Found 2 results
@@ -261,13 +253,12 @@ In the following example, for the Clusters of Galaxies category, and the group G
                     47258 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R7-amico_aux-0                  {}              {}            {}
 
 
-1.2. Cone search
+1.3. Cone search
 ^^^^^^^^^^^^^^^^
 
 This query performs a cone search centered at the specified ra/dec coordinates with the provided radius argument.
 
   >>> #example cone search for source NGC6505
-  >>> from astroquery.esa.euclid import Euclid
   >>> from astropy.coordinates import SkyCoord
   >>> import astropy.units as u
   >>> coord = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
@@ -285,9 +276,6 @@ This query performs a cone search centered at the specified ra/dec coordinates w
    102158889 2024-10-26T14:01:21.038 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_r 0.16895922479034217
    102158889 2024-10-26T13:50:13.676 267.3807789 65.4983 ...     /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/HSC     /data/euclid_q1/Q1_R1/MER/102158889/HSC       HSC_g 0.16895922479034217
    102158889 2024-10-26T13:37:09.628 267.3807789 65.4983 ...    /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/NISP    /data/euclid_q1/Q1_R1/MER/102158889/NISP       NIR_Y 0.16895922479034217
-   102158889  2024-10-26T14:05:09.98 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_u 0.16895922479034217
-   102158889 2024-10-26T13:10:32.453 267.3807789 65.4983 ...    /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/NISP    /data/euclid_q1/Q1_R1/MER/102158889/NISP       NIR_H 0.16895922479034217
-
 
 
 Queries return a limited number of rows controlled by ``Euclid.ROW_LIMIT``. To change the default behaviour set this appropriately.
@@ -303,77 +291,13 @@ To return an unlimited number of rows set ``Euclid.ROW_LIMIT`` to -1.
 
   >>> Euclid.ROW_LIMIT = -1
 
+HCANOVAS: ADD SOMETHING HERE ABOUT QUERY OBJECT 
 
-1.3. Query object
-^^^^^^^^^^^^^^^^^
-
-This query searches for all the objects contained in an arbitrary rectangular projection of the sky.
 
 WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
 (ADQL 2.1,  see: https://ivoa.net/documents/ADQL/20231107/PR-ADQL-2.1-20231107.html#tth_sEc4.2.9).
 
-The following example searches for all the sources contained in an squared region of side = 0.1 degrees around a specific point in ra/dec coordinates. The results are sorted by distance (``dist``) in ascending order.
 
-The method returns the job results as astropy.table
-
-  >>> # Search for objects around a given position with the default catalog catalogue.mer_catalogue
-  >>> from astroquery.esa.euclid import Euclid
-  >>> from astropy.coordinates import SkyCoord
-  >>> import astropy.units as u
-  >>> coord = SkyCoord(ra=60.3372780005097, dec=-49.93184727724773, unit=(u.degree, u.degree), frame='icrs')
-  >>> table = Euclid.query_object(coordinate=coord, width=u.Quantity(0.1, u.deg), height= u.Quantity(0.1, u.deg))  # doctest: +IGNORE_WARNINGS
-  >>> print("Found a total of", len(table), "query results")
-  Found a total of 2000 query results
-  >>> print(table)  # doctest: +IGNORE_OUTPUT
-           dist         avg_trans_wave_g_ext_decam avg_trans_wave_g_ext_hsc avg_trans_wave_g_ext_jpcam avg_trans_wave_g_ext_lsst avg_trans_wave_h avg_trans_wave_i_ext_decam ... sersic_fract_z_ext_panstarrs_disk_sersic sersic_fract_z_ext_panstarrs_disk_sersic_err she_flag spurious_flag     spurious_prob      variable_flag vis_det
-  --------------------- -------------------------- ------------------------ -------------------------- ------------------------- ---------------- -------------------------- ... ---------------------------------------- -------------------------------------------- -------- ------------- ---------------------- ------------- -------
-  3.566798805594703e-06            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0    0.15743961930274963            --       1
-  0.0004459918667892947            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.004427384119480848            --       1
-  0.0011813971416470212            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.1833316683769226            --       1
-  0.0015542789169486976            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0    0.12239421904087067            --       0
-  0.0015885047273778879            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0 0.00021384040883276612            --       1
-                    ...                        ...                      ...                        ...                       ...              ...                        ... ...                                      ...                                          ...      ...           ...                    ...           ...     ...
-    0.03958455791235079            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.1343534141778946            --       0
-    0.03958823626200475            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0 0.00015592691488564014            --       1
-    0.03959898295410331            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.0365927591919899            --       1
-   0.039605684988334174            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.0831669270992279            --       0
-    0.03960602180308949            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             1     0.6376287937164307            --       1
-   0.039606556762811496            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.012528697960078716            --       1
-    0.03962541836711639            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.003399776993319392            --       1
-  Length = 2000 rows
-
-
-Synchronous queries like this one return a limited number of rows -> 2000
-
-The previous query can be executed as an asynchronous version:
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> from astropy.coordinates import SkyCoord
-  >>> import astropy.units as u
-  >>> coord = SkyCoord(ra=60.3372780005097, dec=-49.93184727724773, unit=(u.degree, u.degree), frame='icrs')
-  >>> width=u.Quantity(0.1, u.deg)
-  >>> height= u.Quantity(0.1, u.deg)
-  >>> table_async = Euclid.query_object(coordinate=coord, width=width, height=height, async_job=True)  # doctest: +IGNORE_WARNINGS
-  INFO: Query finished. [astroquery.utils.tap.core]
-  >>> print(f"Found a total of {len(table_async)} query results")
-  Found a total of 2895 query results
-  >>> print(table_async)  # doctest: +IGNORE_OUTPUT
-           dist         avg_trans_wave_g_ext_decam avg_trans_wave_g_ext_hsc avg_trans_wave_g_ext_jpcam avg_trans_wave_g_ext_lsst avg_trans_wave_h avg_trans_wave_i_ext_decam ... sersic_fract_z_ext_panstarrs_disk_sersic sersic_fract_z_ext_panstarrs_disk_sersic_err she_flag spurious_flag     spurious_prob      variable_flag vis_det
-  --------------------- -------------------------- ------------------------ -------------------------- ------------------------- ---------------- -------------------------- ... ---------------------------------------- -------------------------------------------- -------- ------------- ---------------------- ------------- -------
-  3.566798805594703e-06            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0    0.15743961930274963            --       1
-  0.0004459918667892947            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.004427384119480848            --       1
-  0.0011813971416470212            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.1833316683769226            --       1
-  0.0015542789169486976            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0    0.12239421904087067            --       0
-  0.0015885047273778879            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0 0.00021384040883276612            --       1
-                    ...                        ...                      ...                        ...                       ...              ...                        ... ...                                      ...                                          ...      ...           ...                    ...           ...     ...
-    0.03958455791235079            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.1343534141778946            --       0
-    0.03958823626200475            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0 0.00015592691488564014            --       1
-    0.03959898295410331            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.0365927591919899            --       1
-   0.039605684988334174            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0     0.0831669270992279            --       0
-    0.03960602180308949            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             1     0.6376287937164307            --       1
-   0.039606556762811496            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.012528697960078716            --       1
-    0.03962541836711639            4826.7998046875                       --                         --                        --               --             7826.669921875 ...                                       --                                           --       --             0   0.003399776993319392            --       1
-  Length = 2000 rows
 
 
 1.4. Synchronous query
@@ -390,7 +314,6 @@ Query without saving results in a file:
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> #query content: getting some galaxies from the mer catalogue
   >>> job = Euclid.launch_job("SELECT right_ascension, declination, segmentation_area, fluxerr_vis_1fwhm_aper, ellipticity, kron_radius FROM catalogue.mer_catalogue  WHERE ellipticity > 0 ORDER BY ellipticity ASC")
   >>> source_results_table = job.get_results()
@@ -404,18 +327,7 @@ Query without saving results in a file:
     60.3372780005097  -49.93184727724773                45   0.024313488975167274 1.1569118214538321e-05 10.145233154296875
    59.92581284609097 -48.117835930359156               165   0.035201895982027054 4.3500345782376826e-05 10.814051628112793
    62.91963955425831  -45.60370330289406             43783                    nan  5.609192521660589e-05  884.3989868164062
-   54.38946012012026 -28.843720993232775               213    0.03697587549686432  6.897230923641473e-05  11.36937141418457
-   267.3583266451287  63.994872950197674                31    0.01883346401154995  8.067921589827165e-05 10.564066886901855
-  52.507667893100944 -29.445192357858655                44   0.020872678607702255 0.00010451683920109645 10.120616912841797
-   61.43102565450044  -48.13296805386111                53   0.023762457072734833 0.00010995510092470795 10.149212837219238
-  274.03172675714404   65.86352270374569               134    0.03499231114983559 0.00011172338417964056 10.804966926574707
-   271.4749139468259   68.66799925831447               725    0.07235158979892731 0.00013952785229776055 15.325024604797363
-   64.08716465009101  -47.39574129846509                21   0.025711175054311752  0.0001506721746409312  8.137764930725098
-   62.46388138426946 -48.771499634650795               293    0.04792384058237076  0.0001519227953394875  12.14012336730957
-   59.12696116576496  -50.70917518433447                35   0.021673062816262245 0.00015204095689114183  13.88205337524414
-   64.00922297351093 -47.458008931760105               221     0.0443091057240963 0.00015916737902443856 11.836610794067383
-   63.12619441593158  -46.21602917569897                36   0.023102710023522377 0.00016669274191372097  9.809906959533691
-     270.19726289254   68.13460591203628               157    0.03000682406127453 0.00018387728778179735 10.963176727294922
+   ....
 
 
 The method returns a Job object.
@@ -426,7 +338,6 @@ Query saving results in a file (you may use 'output_format' to specify the resul
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> job = Euclid.launch_job("SELECT right_ascension, declination, segmentation_area, fluxerr_vis_1fwhm_aper, ellipticity, kron_radius FROM catalogue.mer_catalogue  WHERE ellipticity > 0 ORDER BY ellipticity ASC", dump_to_file=True, output_format='votable')
   >>> print(job.outputFile)
   1668863838419O-result.vot.gz
@@ -439,14 +350,7 @@ Query saving results in a file (you may use 'output_format' to specify the resul
     60.3372780005097  -49.93184727724773                45   0.024313488975167274 1.1569118214538321e-05 10.145233154296875
    59.92581284609097 -48.117835930359156               165   0.035201895982027054 4.3500345782376826e-05 10.814051628112793
    62.91963955425831  -45.60370330289406             43783                     --  5.609192521660589e-05  884.3989868164062
-   54.38946012012026 -28.843720993232775               213    0.03697587549686432  6.897230923641473e-05  11.36937141418457
-   267.3583266451287  63.994872950197674                31    0.01883346401154995  8.067921589827165e-05 10.564066886901855
-                 ...                 ...               ...                    ...                    ...                ...
-   274.4463705921747   64.52235051000498               139     0.0359811969101429  0.0021674882154911757 11.007905006408691
-  275.12508717512287   65.27789133746404                89   0.017870161682367325  0.0021674996241927147  9.524261474609375
-  62.343396630172755  -49.57660112316788               164   0.023227984085679054   0.002168711507692933  21.94918441772461
-   60.42143918751039 -47.698201261387545               124    0.03315594792366028  0.0021696146577596664 10.711515426635742
-    59.5694307527783  -47.00910465608437               162   0.030248118564486504  0.0021698300261050463 11.478931427001953
+   ////
 
 
 You can inspect the status of the job by typing:
@@ -521,7 +425,6 @@ To get all the asynchronous jobs:
 .. Skipping authentication requiring examples
 .. doctest-skip::
 
-  >>> from astroquery.esa.euclid import Euclid
   >>> joblist = Euclid.list_async_jobs()
   >>> for j in joblist:
   ...     print(j, "\n")
@@ -669,11 +572,7 @@ To get the list of products associated with a given EUCLID observation_id or til
   EUC_MER_BGSUB-MOSAIC-DES-I_TILE102018211-31E2C9_20241018T143048.358037Z_00.00.fits               1399  102018211           DECAM     DECAM_i  SCIENCE         SKY 57.9990741   -51.5     IMAGE
     EUC_MER_BGSUB-MOSAIC-VIS_TILE102018211-ACBD03_20241018T142710.276838Z_00.00.fits               1395  102018211             VIS         VIS  SCIENCE         SKY 57.9990741   -51.5     IMAGE
   EUC_MER_BGSUB-MOSAIC-DES-G_TILE102018211-D9D163_20241018T143010.768685Z_00.00.fits               1394  102018211           DECAM     DECAM_g  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-H_TILE102018211-42F1AD_20241018T142558.469987Z_00.00.fits               1396  102018211            NISP       NIR_H  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-J_TILE102018211-E044A1_20241018T142600.459089Z_00.00.fits               1393  102018211            NISP       NIR_J  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-NIR-Y_TILE102018211-E5CAE1_20241018T142558.172837Z_00.00.fits               1397  102018211            NISP       NIR_Y  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-R_TILE102018211-1078B7_20241018T142927.232351Z_00.00.fits               1401  102018211           DECAM     DECAM_r  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-Z_TILE102018211-83C32F_20241018T143526.104818Z_00.00.fits               1398  102018211           DECAM     DECAM_z  SCIENCE         SKY 57.9990741   -51.5     IMAGE
+  ...
 
 The method returns a list of products as an `~astropy.table.Table`.
 
@@ -685,7 +584,6 @@ It is possible to download a product given its file name or product id:
 
   >>> #makeing a folder for the output files
   >>> import os
-  >>> from astroquery.esa.euclid import Euclid
   >>> output_folder= 'example_outputs/'
   >>> if not os.path.exists(output_folder):
          os.makedirs(output_folder)
