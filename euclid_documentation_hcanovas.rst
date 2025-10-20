@@ -5,15 +5,13 @@ ESA EUCLID Archive (`astroquery.esa.euclid`)
 ********************************************
 
 
-Euclid is an ESA mission to map the geometry of the dark Universe. The mission investigates the distance-redshift
-relationship and the evolution of cosmic structures. The space telescope creates a great map of the large-scale
-structure of the Universe across space and time by observing billions of galaxies out to 10 billion light-years, across
-more than a third of the sky. It achieves this by measuring shapes and redshifts of galaxies and clusters of galaxies
-out to redshifts ~2, or equivalently to a look-back time of 10 billion years. It therefore explores how the Universe has
-expanded and how structure has formed over cosmic history, revealing more about the role of gravity and the nature of
-dark energy and dark matter.
-
-This package allows access to the European Space Agency Euclid Archive (https://eas.esac.esa.int/).
+`Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
+The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
+creating a detailed map of the large-scale structure of the Universe across space and time by observing billions of galaxies
+out to 10 billion light-years, across more than a third of the sky. It achieves this by measuring shapes and redshifts of
+galaxies and clusters of galaxies out to redshifts ~2, or equivalently to a look-back time of 10 billion years. It therefore
+explores how the Universe has expanded and how structure has formed over cosmic history, revealing more about the role of
+gravity and the nature of dark energy and dark matter.
 
 The Euclid Survey is done in a 'step-and-stare' mode, where the telescope points to a position on the sky and then
 imaging and spectroscopic measurements are performed on an area of ~0.48 deg\ :sup:`2` around this position. The telescope
@@ -25,53 +23,55 @@ each take a 560s exposure, consisting of a direct visible image and a red grism 
 NISP exposures in the Y, J, and H band filters (87 seconds each). The telescope is then dithered, and the sequence is
 repeated starting with a different grism position angle. There are actually two operational grisms oriented 180 degrees
 from each other. Each grism will be used twice in this sequence, but with slight angular offsets (+/- 4 degrees),
-effectively creating the four different grism angles (Scaramella et al. 2022, A&A 662, A112).
+effectively creating the four different grism angles
+(`Scaramella et al. 2022, A&A 662, A112 <https://ui.adsabs.harvard.edu/abs/2022A%26A...662A.112E/abstract>`_).
 
 This standard four-dithers operating mode sequence is called a single observation and all the individual exposures
-associated with each observation are organized by Observation ID in the archive. The SGS also processes all of its
+associated with each observation are organized by Observation ID in the archive. The
+`Science Ground Segment <https://www.euclid-ec.org/public/data/ground-segment/>`_ also processes all of its
 imaging into merged mosaics, which can contain multiple different observations. All products associated with these
 mosaics are organized by Tile ID in the archive.
 
-
-`astroquery.esa.euclid` provides the astroquery interface to the metadata and datasets provided by the European Space
-Agency EUCLID Archive using a TAP+ REST service. TAP+ is an extension of Table Access Protocol (TAP: http://www.ivoa.net/documents/TAP/)
-specified by the International Virtual Observatory Alliance (IVOA: http://www.ivoa.net).
+This package provides the astroquery interface to the metadata and datasets provided by the 
+`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
+TAP+ is an extension of Table Access Protocol (`TAP <http://www.ivoa.net/documents/TAP/>`_)
+specified by the International Virtual Observatory Alliance (`IVOA <http://www.ivoa.net>`_).
 
 
 The TAP query language is Astronomical Data Query Language
-(ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html ), which is similar to Structured Query Language (SQL),
-widely used to query databases.
+(`ADQL <https://www.ivoa.net/documents/ADQL/20231215/index.html>`_), which is similar to Structured
+Query Language (SQL), widely used to query databases.
 
-TAP provides two operation modes: Synchronous and Asynchronous:
+TAP provides two operation modes: 
 
 * Synchronous: the response to the request will be generated as soon as the request received by the server.
-  (Do not use this method for queries that generate a large amount of results.)
+  (do not use this method for queries that generate a large amount of results).
 * Asynchronous: the server starts a job that will execute the request.
   The first response to the request is the required information (a link) to obtain the job status.
   Once the job is finished, the results can be retrieved.
 
 
-ESA EUCLID TAP+ server provides two access modes: public and authenticated:
+ESA EUCLID TAP+ server provides two access modes: 
 
-* Public: this is the standard TAP access.
-  A user can execute ADQL queries and upload tables to be used in a query 'on-the-fly' (these tables will be removed
-  once the query is executed). The results are available to any other user, and they will remain in the server for a
-  limited space of time.
+* Public: this is the standard `TAP <http://www.ivoa.net/documents/TAP/>`_ access.
+  A user can execute `ADQL <https://www.ivoa.net/documents/ADQL/20231215/index.html>`_ queries and upload tables
+  to be used in a query 'on-the-fly' (these tables will be removed once the query is executed). The results are
+  available to any other user, and they will remain in the server for a limited space of time.
 
-* Authenticated: some functionalities are restricted to authenticated users only.
-  The results are saved in a private user space and they will remain in the server forever (they can be removed by the
-  user).
-
-  * ADQL queries and results are saved in a user private area.
+* Authenticated: some functionalities are restricted to authenticated users only. The ADQL queries and their outcomes
+  will remain in the server until the user deletes them. The dedicated functionalities include:
+  
+  * Cross-match operations: a built-in cross-match tool allows to easily cross-match catalogues by spatial coordinates.
 
   * Persistence of uploaded tables: a user can upload a table in a private space.
     These tables can be used in queries as well as in cross-matches operations.
 
 
+If you use public Euclid data in your paper, please take note of our
+`guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
+to acknowledge and cite Euclid data.
 
-If you use public Euclid data in your paper, please take note of our guide_ on how to acknowledge and cite Euclid data.
 
-.. _guide: https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements
 
 This python module provides an Astroquery API access.
 
