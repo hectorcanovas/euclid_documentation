@@ -138,36 +138,26 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 1. Public access
 ---------------------------
 
-1.1. Getting public tables metadata
+1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Table and column metadata are specified by IVOA_ TAP_ recommendation (to access to the actual data, an ADQL query must be executed).
-
-To load only table names metadata (TAP+ capability):
+Table and column metadata are specified by the IVOA_ TAP_ recommendation. To load only table names metadata (TAP+ capability):
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
-  INFO: Retrieving tables... [astroquery.utils.tap.core]
-  INFO: Parsing tables... [astroquery.utils.tap.core]
-  INFO: Done. [astroquery.utils.tap.core]
-  >>> print("Found", len(tables), "tables") # doctest: +IGNORE_OUTPUT
-  Found 34 tables
+  >>> print(f'* Found {len(tables)} tables')
   >>> print(*(table.name for table in tables), sep="\n")  # doctest: +IGNORE_OUTPUT
   ivoa.obscore
   public.dual
   sedm.raw_detector
   sedm.raw_frame
   sedm.raw_quadrant
-    ...
   ...
 
 
 To load all table metadata (TAP compatible):
 
   >>> tables = Euclid.load_tables()
-  INFO: Retrieving tables... [astroquery.utils.tap.core]
-  INFO: Parsing tables... [astroquery.utils.tap.core]
-  INFO: Done. [astroquery.utils.tap.core]
-  >>> print(tables[0]) # doctest: +IGNORE_OUTPUT
+  >>> print(tables[0])
   TAP Table name: ivoa.obscore
   Description: None
   Size (bytes): 0
@@ -177,7 +167,7 @@ To load all table metadata (TAP compatible):
 To load only a table (TAP+ capability) and inspect its columns:
 
   >>> raw_detector_table = Euclid.load_table('sedm.raw_detector')
-  >>> print(raw_detector_table) # doctest: +SKIP
+  >>> print(raw_detector_table)
   TAP Table name: sedm.raw_detector
   Description: None
   Size (bytes): 0
@@ -187,53 +177,6 @@ To load only a table (TAP+ capability) and inspect its columns:
   crpix2
   crval1
   ...
-
-
-
-1.3. Cone search
-^^^^^^^^^^^^^^^^
-
-This query performs a cone search centered at the specified ra/dec coordinates with the provided radius argument.
-
-  >>> #example cone search for source NGC6505
-  >>> from astropy.coordinates import SkyCoord
-  >>> import astropy.units as u
-  >>> coord = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
-  >>> radius = u.Quantity(0.5, u.deg)
-  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-  INFO: Query finished. [astroquery.utils.tap.core]
-  >>> cone_results = job.get_results()
-  >>> print("Found", len(cone_results), "results")
-  Found 27 results
-  >>> cone_results['tile_index', 'creation_date', 'ra', 'dec', 'file_name', 'file_path', 'datalabs_path', 'filter_name', 'dist'][:5]  # doctest: +IGNORE_OUTPUT
-  <Table length=5>
-  tile_index      creation_date           ra       dec   ...                        file_path                                       datalabs_path                filter_name         dist
-    int64             str23            float64   float64 ...                          str55                                             str43                       str11          float64
-  ---------- ----------------------- ----------- ------- ... ------------------------------------------------------- ------------------------------------------- ----------- -------------------
-   102158889 2024-10-26T14:01:21.038 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_r 0.16895922479034217
-   102158889 2024-10-26T13:50:13.676 267.3807789 65.4983 ...     /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/HSC     /data/euclid_q1/Q1_R1/MER/102158889/HSC       HSC_g 0.16895922479034217
-   102158889 2024-10-26T13:37:09.628 267.3807789 65.4983 ...    /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/NISP    /data/euclid_q1/Q1_R1/MER/102158889/NISP       NIR_Y 0.16895922479034217
-
-
-Queries return a limited number of rows controlled by ``Euclid.ROW_LIMIT``. To change the default behaviour set this appropriately.
-
-  >>> Euclid.ROW_LIMIT = 2
-  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-    INFO: Query finished. [astroquery.utils.tap.core]
-  >>> cone_results = job.get_results()
-  >>> print(f"Found {len(cone_results)} results")
-  Found 2 results
-
-To return an unlimited number of rows set ``Euclid.ROW_LIMIT`` to -1.
-
-  >>> Euclid.ROW_LIMIT = -1
-
-HCANOVAS: ADD SOMETHING HERE ABOUT QUERY OBJECT 
-
-
-WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
-(ADQL 2.1,  see: https://ivoa.net/documents/ADQL/20231107/PR-ADQL-2.1-20231107.html#tth_sEc4.2.9).
-
 
 
 
@@ -318,6 +261,42 @@ Note: to obtain the current location, type:
   >>> print(os.getcwd())
 
 
+
+
+1.6. Synchronous query on an 'on-the-fly' uploaded table
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+'On-the-fly' queries allow you to submit a votable and perform a query using that table all in one command; unlike tables
+uploaded with the methods described in section :ref:`uploading_table_to_user_space`, these tables will be deleted after the query is complete.
+
+You have to provide the local path to the file you want to upload. In the following example, the file 'my_table.xml' is
+located to the relative location where your python program is running. See note below.
+
+.. TODO: a local file need to be added for this example
+.. doctest-skip::
+
+  >>> from astroquery.esa.euclid import Euclid
+  >>> upload_resource = 'my_table.xml'
+  >>> j = Euclid.launch_job(query="select * from tap_upload.table_test",
+  ... upload_resource=upload_resource, upload_table_name="table_test", verbose=True)
+  >>> r = j.get_results()
+  >>> r.pprint()
+  source_id alpha delta
+  --------- ----- -----
+          a   1.0   2.0
+          b   3.0   4.0
+          c   5.0   6.0
+
+Note: to obtain the current location, type:
+
+.. doctest-skip::
+
+  >>> import os
+  >>> print(os.getcwd())
+  /Current/directory/path
+
+
+
 1.5. Asynchronous query
 ^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -387,37 +366,55 @@ To remove asynchronous jobs:
   >>> job = Euclid.remove_jobs(["job_id_1", "job_id_2", ...])
 
 
-1.6. Synchronous query on an 'on-the-fly' uploaded table
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-'On-the-fly' queries allow you to submit a votable and perform a query using that table all in one command; unlike tables
-uploaded with the methods described in section :ref:`uploading_table_to_user_space`, these tables will be deleted after the query is complete.
+1.3. Cone search
+^^^^^^^^^^^^^^^^
 
-You have to provide the local path to the file you want to upload. In the following example, the file 'my_table.xml' is
-located to the relative location where your python program is running. See note below.
+This query performs a cone search centered at the specified ra/dec coordinates with the provided radius argument.
 
-.. TODO: a local file need to be added for this example
-.. doctest-skip::
+  >>> #example cone search for source NGC6505
+  >>> from astropy.coordinates import SkyCoord
+  >>> import astropy.units as u
+  >>> coord = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
+  >>> radius = u.Quantity(0.5, u.deg)
+  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
+  INFO: Query finished. [astroquery.utils.tap.core]
+  >>> cone_results = job.get_results()
+  >>> print("Found", len(cone_results), "results")
+  Found 27 results
+  >>> cone_results['tile_index', 'creation_date', 'ra', 'dec', 'file_name', 'file_path', 'datalabs_path', 'filter_name', 'dist'][:5]  # doctest: +IGNORE_OUTPUT
+  <Table length=5>
+  tile_index      creation_date           ra       dec   ...                        file_path                                       datalabs_path                filter_name         dist
+    int64             str23            float64   float64 ...                          str55                                             str43                       str11          float64
+  ---------- ----------------------- ----------- ------- ... ------------------------------------------------------- ------------------------------------------- ----------- -------------------
+   102158889 2024-10-26T14:01:21.038 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_r 0.16895922479034217
+   102158889 2024-10-26T13:50:13.676 267.3807789 65.4983 ...     /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/HSC     /data/euclid_q1/Q1_R1/MER/102158889/HSC       HSC_g 0.16895922479034217
+   102158889 2024-10-26T13:37:09.628 267.3807789 65.4983 ...    /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/NISP    /data/euclid_q1/Q1_R1/MER/102158889/NISP       NIR_Y 0.16895922479034217
 
-  >>> from astroquery.esa.euclid import Euclid
-  >>> upload_resource = 'my_table.xml'
-  >>> j = Euclid.launch_job(query="select * from tap_upload.table_test",
-  ... upload_resource=upload_resource, upload_table_name="table_test", verbose=True)
-  >>> r = j.get_results()
-  >>> r.pprint()
-  source_id alpha delta
-  --------- ----- -----
-          a   1.0   2.0
-          b   3.0   4.0
-          c   5.0   6.0
 
-Note: to obtain the current location, type:
+Queries return a limited number of rows controlled by ``Euclid.ROW_LIMIT``. To change the default behaviour set this appropriately.
 
-.. doctest-skip::
+  >>> Euclid.ROW_LIMIT = 2
+  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
+    INFO: Query finished. [astroquery.utils.tap.core]
+  >>> cone_results = job.get_results()
+  >>> print(f"Found {len(cone_results)} results")
+  Found 2 results
 
-  >>> import os
-  >>> print(os.getcwd())
-  /Current/directory/path
+To return an unlimited number of rows set ``Euclid.ROW_LIMIT`` to -1.
+
+  >>> Euclid.ROW_LIMIT = -1
+
+HCANOVAS: ADD SOMETHING HERE ABOUT QUERY OBJECT 
+
+
+WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
+(ADQL 2.1,  see: https://ivoa.net/documents/ADQL/20231107/PR-ADQL-2.1-20231107.html#tth_sEc4.2.9).
+
+
+
+
+
 
 
 1.2. Getting product data
