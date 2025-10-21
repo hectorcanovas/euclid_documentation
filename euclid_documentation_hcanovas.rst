@@ -112,7 +112,7 @@ This Astroquery package is mostly geared to query and retrieve the data stored i
 
 
 
-.. _DPDD: http://st-dm.pages.euclid-sgs.uk/data-product-doc/dm10/
+.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
 .. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
 
 
@@ -180,14 +180,11 @@ To load only a table (TAP+ capability) and inspect its columns:
 
 
 
-1.4. Synchronous query
+1.2. Synchronous query
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The results of a synchronous query are stored at the user side (i.e., they are not saved in the server). These queries
-can only be used when the amount of data to be retrieved (number of rows) is small, otherwise, a timeout error can be raised.
-The output of the synchronous queries is limited to 2000 rows. If you need more than that, you must use asynchronous queries.
-The results of asynchronous queries can be saved in memory (default) or in a file but are also stored on the server/archive
-so you can access the results by logging in on the archive website too.
+This is the recommended mode for queries that do not require excesive computation time and that generate relatively small results - for details please see the Gaia Archive FAQ:
+`Why does my query time out after 90 minutes? Why is my query limited to 3 million rows? <https://www.cosmos.esa.int/web/gaia/faqs#account-limits-2020>`_
 
 Query without saving results in a file:
 
