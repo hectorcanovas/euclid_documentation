@@ -3,11 +3,11 @@
 ********************************************
 ESA EUCLID Archive (`astroquery.esa.euclid`)
 ********************************************
-.. contents::
-   :local:
-   :depth: 3
 
 
+**OVERVIEW** 
+
+**The Euclid mission**
 
 `Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
 The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
@@ -35,6 +35,9 @@ associated with each observation are organized by Observation ID in the archive.
 `Science Ground Segment <https://www.euclid-ec.org/public/data/ground-segment/>`_ also processes all of its
 imaging into merged mosaics, which can contain multiple different observations. All products associated with these
 mosaics are organized by Tile ID in the archive.
+
+
+**Astroquery.esa.euclid**
 
 This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
 `European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
@@ -67,9 +70,9 @@ On top of that, this package provides two access modes:
     These tables can be used in queries as well as in cross-matches operations.
 
 
-Please note that, to reduce verbosity and facilitate reading this document: 
+Please note that, to reduce the examples verbosity and to facilitate reading this document: 
 
-* The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
+* The code examples output has been trimmed and only the top few output lines are displayed.
 
 * The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
 
@@ -84,6 +87,12 @@ to acknowledge and cite Euclid data if you use public Euclid data in your paper.
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 
 
+Table of contents:
+
+.. contents::
+   :local:
+   :depth: 3
+
 ========
 Examples
 ========
@@ -97,7 +106,7 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 
 
 
-0. Introduction
+0. Introduction_Archive
 ---------------------------------
 
 0.1 Euclid science archive systems
