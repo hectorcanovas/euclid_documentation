@@ -183,118 +183,54 @@ To load only a table (TAP+ capability) and inspect its columns:
 1.2. Synchronous query
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This is the recommended mode for queries that do not require excesive computation time and that generate relatively small results - for details please see the Gaia Archive FAQ:
+This is the recommended mode for queries that do not require excesive computation time and that generate tables with less than 2,000 rows - for details please see the Gaia Archive FAQ:
 `Why does my query time out after 90 minutes? Why is my query limited to 3 million rows? <https://www.cosmos.esa.int/web/gaia/faqs#account-limits-2020>`_
-
-Query without saving results in a file:
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> #query content: getting some galaxies from the mer catalogue
-  >>> job = Euclid.launch_job("SELECT right_ascension, declination, segmentation_area, fluxerr_vis_1fwhm_aper, ellipticity, kron_radius FROM catalogue.mer_catalogue  WHERE ellipticity > 0 ORDER BY ellipticity ASC")
-  >>> source_results_table = job.get_results()
-  >>> print("Found", len(source_results_table), " query results")
-  Found 2000  query results
-  >>> print("The results table includes the following", len(source_results_table.colnames), "columns: ", source_results_table.colnames)
-  The results table includes the following 6 columns:  ['right_ascension', 'declination', 'segmentation_area', 'fluxerr_vis_1fwhm_aper', 'ellipticity', 'kron_radius']
-  >>> print(source_results_table[:15])
-   right_ascension       declination     segmentation_area fluxerr_vis_1fwhm_aper      ellipticity          kron_radius
-  ------------------ ------------------- ----------------- ---------------------- ---------------------- ------------------
-    60.3372780005097  -49.93184727724773                45   0.024313488975167274 1.1569118214538321e-05 10.145233154296875
-   59.92581284609097 -48.117835930359156               165   0.035201895982027054 4.3500345782376826e-05 10.814051628112793
-   62.91963955425831  -45.60370330289406             43783                    nan  5.609192521660589e-05  884.3989868164062
-   ....
+The example below shows how to extract a subset of three sources with ellipticity larger than zero from the "mer_catalogue":
 
 
-The method returns a Job object.
-
-Query saving results in a file (you may use 'output_format' to specify the results' data format. Available formats are:
-'votable', 'votable_plain', 'fits', 'csv' and 'json', default is 'votable'):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> job = Euclid.launch_job("SELECT right_ascension, declination, segmentation_area, fluxerr_vis_1fwhm_aper, ellipticity, kron_radius FROM catalogue.mer_catalogue  WHERE ellipticity > 0 ORDER BY ellipticity ASC", dump_to_file=True, output_format='votable')
-  >>> print(job.outputFile)
-  1668863838419O-result.vot.gz
-  >>> r = job.get_results()
-  >>> print(r)
-  <Table length=2000>
-   right_ascension       declination     segmentation_area fluxerr_vis_1fwhm_aper      ellipticity          kron_radius
-       float64             float64             int32              float64                float64              float64
-  ------------------ ------------------- ----------------- ---------------------- ---------------------- ------------------
-    60.3372780005097  -49.93184727724773                45   0.024313488975167274 1.1569118214538321e-05 10.145233154296875
-   59.92581284609097 -48.117835930359156               165   0.035201895982027054 4.3500345782376826e-05 10.814051628112793
-   62.91963955425831  -45.60370330289406             43783                     --  5.609192521660589e-05  884.3989868164062
-   ////
+  >>> query = f"SELECT TOP 3 object_id, right_ascension, declination, segmentation_area, ellipticity, kron_radius FROM {mer_cat_name} WHERE ellipticity > 0"
+  >>> job   = Euclid.launch_job(query)
+  >>> res   = job.get_results()
+  >>> print(f'* Output table contains {len(res)} rows')
+  >> print(res)
+       object_id       right_ascension      declination    segmentation_area     ellipticity        kron_radius    
+  ------------------- ------------------ ----------------- ----------------- ------------------- ------------------
+  2744182404684288509 274.41824043555044 68.42885096091729                98 0.34178537130355835 22.018617630004883
+  2744679115684290125  274.4679115369266  68.4290125712924                94 0.36368849873542786  19.16196632385254
+  2744820013684293317 274.48200131993156 68.42933179142987                47 0.13406670093536377 13.094022750854492
 
 
-You can inspect the status of the job by typing:
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
+The method returns a Job object. Its result can be extracted using the "get_results()" method, that generates an `Astropy table <https://docs.astropy.org/en/stable/table/index.html>`_ object.
+The job status can be inspected by typing:
 
   >>> print(job)
-  <Table length=2000>
-           name           dtype  n_bad
-  ---------------------- ------- -----
-         right_ascension float64     0
-             declination float64     0
-       segmentation_area   int32     0
-  fluxerr_vis_1fwhm_aper float64    67
-             ellipticity float64     0
-             kron_radius float64     0
-  Jobid: None
-  Phase: COMPLETED
-  Owner: None
-  Output file: 1
 
-Note: to obtain the current location, type:
-
-.. doctest-skip::
-
-  >>> import os
-  >>> print(os.getcwd())
+Note that deleting the "TOP 3" string in the query above will return up to 2,000 sources.
 
 
 
+1.2.1 Synchronous query on an 'on-the-fly' uploaded table
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-1.6. Synchronous query on an 'on-the-fly' uploaded table
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+'On-the-fly' queries allow you to upload a votable and perform a query on it in one single command. The uploaded tables
+will be deleted after the query is complete. Alternatively, as a registered user it is possible to upload a table and store it in the user space (see Sect. 2 below).
 
-'On-the-fly' queries allow you to submit a votable and perform a query using that table all in one command; unlike tables
-uploaded with the methods described in section :ref:`uploading_table_to_user_space`, these tables will be deleted after the query is complete.
+In the example below, the VOTable_ file "my_table.xml' is uploaded to the Archive and used to perform a JOIN operation with the mer_catalogue.
 
-You have to provide the local path to the file you want to upload. In the following example, the file 'my_table.xml' is
-located to the relative location where your python program is running. See note below.
-
-.. TODO: a local file need to be added for this example
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
   >>> upload_resource = 'my_table.xml'
-  >>> j = Euclid.launch_job(query="select * from tap_upload.table_test",
-  ... upload_resource=upload_resource, upload_table_name="table_test", verbose=True)
-  >>> r = j.get_results()
-  >>> r.pprint()
+  >>> job             = Euclid.launch_job(query="SELECT * FROM tap_upload.table_test", upload_resource=upload_resource, upload_table_name="table_test", verbose=True)
+  >>> res             = j.get_results()
+  >>> res.pprint()
   source_id alpha delta
   --------- ----- -----
           a   1.0   2.0
           b   3.0   4.0
           c   5.0   6.0
 
-Note: to obtain the current location, type:
 
-.. doctest-skip::
+.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
 
-  >>> import os
-  >>> print(os.getcwd())
-  /Current/directory/path
-
-
-
-1.5. Asynchronous query
+1.3. Asynchronous query
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Asynchronous queries save all results on the server side, which means they take up the user’s file quota in the archive.
