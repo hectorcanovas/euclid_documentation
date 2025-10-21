@@ -67,15 +67,11 @@ On top of that, this package provides two access modes:
     These tables can be used in queries as well as in cross-matches operations.
 
 
-Please note that:
-
-* To reduce verbosity:
+Please note that, to reduce verbosity:
   
-  * All the examples listed below have been trimmed and only the first 3 (or 5) output lines are displayed.
+  * The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
 
-  * The first line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. 
-
-* It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
+  * The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
 
 
 Finally, please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
@@ -103,7 +99,10 @@ This method will retrieve the same warning messages shown in EUCLID Science Arch
 
 
 
-0. Euclid science archive systems
+0. Introduction
+---------------------------------
+
+0.1 Euclid science archive systems
 ---------------------------------
 
 The Euclid Science Archive has several environments serving different purposes for the Euclid Consortium members.
@@ -120,16 +119,12 @@ observations), the next campaign shall be run in March-April 2025.
 opened on the 6th of November 2024, with a first pass on the three Euclid deep fields (EDFN, EDFS and EDFF) as well as
 observations on the Lynds Dark Nebula LDN1641.
 
-4. The PDR (Public Data Release) environment of the Euclid science archive holds the public data. Euclid Q1 data was publicly released on March 19,
-2025. The main component of the Q1 data contains Level 2 data of a single visit (at the depth of the Euclid Wide
+4. The PDR (Public Data Release) environment of the Euclid science archive holds the public data. Euclid Q1_ data was publicly released on March 19,
+2025. The main component of the Q1_ data contains Level 2 data of a single visit (at the depth of the Euclid Wide
 Survey) over the Euclid Deep Fields (EDFs): 20 deg\ :sup:`2` of the EDF North, 10 deg\ :sup:`2` of EDF Fornax, and
-23 deg\ :sup:`2` of the EDF South. The deep fields will be visited multiple times during the mission.
+23 deg\ :sup:`2` of the EDF South. The deep fields will be visited multiple times during the mission (see the 
+`Euclid Surveys <https://www.euclid-ec.org/public/data/surveys/>`_ page for details).
 
-
-The description of these data products can be found on the Data Product Definition Document (DPDD_)
-
-.. _DPDD: http://st-dm.pages.euclid-sgs.uk/data-product-doc/dm10/
-.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 
 By default, the object *Euclid*
 
@@ -142,7 +137,19 @@ makes use of the *PDR* environment. In order to make use of a different one, it 
 
 The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 
+.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
+.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
 
+
+
+0.2 Euclid data
+---------------------------------
+
+* It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
+
+The description of these data products can be found on the Data Product Definition Document (DPDD_)
+
+.. _DPDD: http://st-dm.pages.euclid-sgs.uk/data-product-doc/dm10/
 
 1. Public access
 ---------------------------
