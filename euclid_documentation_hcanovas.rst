@@ -69,9 +69,9 @@ On top of that, this package provides two access modes:
 
 Please note that, to reduce verbosity:
   
-  * The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
+ * The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
 
-  * The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
+The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
 
 
 Finally, please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
@@ -103,7 +103,7 @@ This method will retrieve the same warning messages shown in EUCLID Science Arch
 ---------------------------------
 
 0.1 Euclid science archive systems
----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The Euclid Science Archive has several environments serving different purposes for the Euclid Consortium members.
 
@@ -143,7 +143,7 @@ The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 
 
 0.2 Euclid data
----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * It is also possible to directly access to the Euclid products that are stored in dedicated volumes using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ data analysis platform. 
 
