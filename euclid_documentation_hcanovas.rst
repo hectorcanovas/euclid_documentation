@@ -67,11 +67,11 @@ On top of that, this package provides two access modes:
     These tables can be used in queries as well as in cross-matches operations.
 
 
-Please note that, to reduce verbosity:
-  
- * The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
+Please note that, to reduce verbosity: 
 
-The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
+* The output of the code examples listed below has been trimmed and only the first three (or five, depending on the code example) output lines are displayed.
+
+* The main line of code: "from astroquery.esa.euclid import Euclid" is only kept in the first example. The same applies to the "Euclid.login()" code in Section 2 below.
 
 
 Finally, please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
@@ -86,9 +86,9 @@ to acknowledge and cite Euclid data if you use public Euclid data in your paper.
 Examples
 ========
 
-It is highly recommended checking the status of Euclid TAP before executing this module. To do this:
+It is highly recommended checking the status of Euclid TAP_ before executing this module. To do this:
 
-.. almost all code examples require remote-data access, thus only using this
+.. almost all code examples below require remote-data access, thus only using this
    one at the first example
 .. doctest-remote-data-all::
 
