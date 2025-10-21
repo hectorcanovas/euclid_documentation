@@ -18,49 +18,26 @@ gravity and the nature of dark energy and dark matter.
 Please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data if you use public Euclid data in your paper.
 
-**Astroquery.esa.euclid**
+**hcanovas: remove this paragraph and instead add it to the Euclid Archive Help pages (location to be decided):**
+The `Euclid Survey <https://www.euclid-ec.org/public/data/surveys/>`_ is done in a 'step-and-stare' mode, where the telescope
+points to a position on the sky and then imaging and spectroscopic measurements are performed on an area of ~0.48 deg\ :sup:`2`
+around this position. The telescope consists of two cameras, the visible instrument (VIS) and the Near Infrared Spectrometer
+and Photometer (NISP) instrument that observe simultaneously using a light splitting dichroic.
+For the survey standard operating mode, the telescope undertakes a 4-point dither pattern. At each position VIS and NISP
+each take a 560s exposure, consisting of a direct visible image and a red grism exposure. This is followed by further
+NISP exposures in the Y, J, and H band filters (87 seconds each). The telescope is then dithered, and the sequence is
+repeated starting with a different grism position angle. There are actually two operational grisms oriented 180 degrees
+from each other. Each grism will be used twice in this sequence, but with slight angular offsets (+/- 4 degrees),
+effectively creating the four different grism angles
+(`Scaramella et al. 2022, A&A 662, A112 <https://ui.adsabs.harvard.edu/abs/2022A%26A...662A.112E/abstract>`_).
+This standard four-dithers operating mode sequence is called a single observation and all the individual exposures
+associated with each observation are organized by Observation ID in the archive. The
+`Science Ground Segment <https://www.euclid-ec.org/public/data/ground-segment/>`_ also processes all of its
+imaging into merged mosaics, which can contain multiple different observations. All products associated with these
+mosaics are organized by Tile ID in the archive.
 
-This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
-`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
-TAP+ is an extension of Table Access Protocol (TAP_)
-specified by the International Virtual Observatory Alliance (IVOA_).
-The TAP_ query language is Astronomical Data Query Language (ADQL_). TAP_ provides two operation modes: 
-
-* Synchronous: the response to the request will be generated as soon as the request received by the server
-  (do not use this method for queries that generate a large amount of results).
-* Asynchronous: the server starts a job that will execute the request.
-  The first response to the request is the required information (a link) to obtain the job status.
-  Once the job is finished, the results can be retrieved.
-
-
-On top of that, this package provides two access modes: 
-
-* Public (default): An anonymous user can execute ADQL_ queries and upload tables
-  to be used in a query 'on-the-fly' (these tables will be removed once the query is executed). The results are
-  available to any other user, and they will remain in the server for a limited space of time.
-
-* Authenticated: some functionalities are restricted to authenticated users only. The ADQL_ queries and their outcomes
-  will remain in the server until the user deletes them. The dedicated functionalities include:
-  
-  * Cross-match operations: a built-in cross-match tool allows to easily cross-match catalogues by spatial coordinates.
-
-  * Persistence of uploaded tables: a user can upload a table in a private space.
-    These tables can be used in queries as well as in cross-matches operations.
-
-
-To reduce the examples verbosity (as well as complexity), the code examples output has been trimmed
-and only the most relevant output lines are displayed. Whenever possible, the documentation points to the `Astroquery.Gaia package <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ that shares a similar architecture and methods with this module.
-
-
-.. _TAP: http://www.ivoa.net/documents/TAP/
-.. _IVOA: http://www.ivoa.net
-.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
-
-
-**Euclid science archive systems**
-
-
-The Euclid Science Archive has several environments serving different purposes for the `Euclid Consortium <https://www.euclid-ec.org/>`_ members.
+**hcanovas: remove the paragraph below and add it to the EC Help content & EC datalabs:** The Euclid Science Archive has several environments
+serving different purposes for the `Euclid Consortium <https://www.euclid-ec.org/>`_ members.
 
 1. The OTF ("on-the-fly") environment of the Euclid science archive, first started at the start of science operation exposed data as processed by
 the SGS (Science Ground Segment) soon after acquisition to provide an access as soon as possible. In this environment
@@ -91,6 +68,36 @@ makes use of the *PDR* environment. In order to make use of a different one, it 
 
 The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 
+
+**Astroquery.esa.euclid**
+
+This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
+`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
+TAP+ is an extension of Table Access Protocol (TAP_)
+specified by the International Virtual Observatory Alliance (IVOA_).
+The TAP_ query language is Astronomical Data Query Language (ADQL_). TAP_ provides two operation modes: 
+
+* Synchronous: the server response is generated as soon as the request is received 
+  (do not use this method for queries that generate a large amount of results).
+* Asynchronous: the server starts a job that will execute the request. The first response to the request is a link with information about the job status. 
+
+
+On top of that, this package provides two access modes: 
+
+* Public (default): The results generated by the anonymous ADQL_ queries are public, and deleted from the Archive 72 hours.
+
+* Authenticated: The ADQL_ queries and their outcomes remain in the usr space until the user deletes them. In addition, authenticated users benefit from dedicated functionalities (see Sect 2 below).
+
+
+To reduce the examples verbosity (as well as complexity), the code examples output has been trimmed
+and only the most relevant output lines are displayed. Whenever possible, the documentation points
+to the `Astroquery.Gaia package <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ that
+shares a similar architecture and methods with this module.
+
+
+.. _TAP: http://www.ivoa.net/documents/TAP/
+.. _IVOA: http://www.ivoa.net
+.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
 
@@ -99,11 +106,9 @@ The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 
 **Euclid data and data access**
 
-Euclid Q1_ contains different types of data, like catalogues (data tables), images, and spectra (see the `Data products in the science archive <https://s2e2.cosmos.esa.int/www/euclid_iscience/Data_products_in_the_science_archive.html>`_
-in the `Euclid Archive Help <https://s2e2.cosmos.esa.int/www/euclid_iscience/Public_User_Guide.html>`_ for details). The description of these data products can be found on the Data Product Definition Document (DPDD_). 
+Euclid Q1_ contains different types of data, like catalogues (data tables), images, and spectra. For details, please refer to the `Data products in the science archive <https://s2e2.cosmos.esa.int/www/euclid_iscience/Data_products_in_the_science_archive.html>`_ in the `Euclid Archive Help <https://s2e2.cosmos.esa.int/www/euclid_iscience/Public_User_Guide.html>`_ , as well as the Q1 Data Product Definition Document (DPDD_). 
 
-This Astroquery package is mostly geared to query and retrieve the data stored in the catalogues, but it also includes dedicated methods to retrieve the images - stored as large FITS files - and spectra (the latter being served via
-the DataLink_ IVOA_ protocol - see Sect. 3 below). It is also possible to directly access to these products (without having to retrieve them) using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ e-science platform. Users aiming to analyse large Euclid datasets are encouraged to use this platform.
+This Astroquery package is mostly geared to query and retrieve the data stored in the catalogues, but it also includes dedicated methods to retrieve the images and spectra (both stored as large FITS files). The latter are served via the DataLink_ IVOA_ protocol - see Sect. 3 below). It is also possible to directly access to these products (without having to retrieve them) using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ e-science platform. Users aiming to analyse large Euclid datasets are encouraged to use this platform.
 
 
 
