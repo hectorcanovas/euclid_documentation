@@ -188,7 +188,7 @@ To load only a table (TAP+ capability) and inspect its columns:
 1.2. Cone search
 ^^^^^^^^^^^^^^^^
 
-This method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
+This cone_search_ method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
 The exampe below shows how to launch a 0.5 degrees radius cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_. By default, this method targets
 the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation can be removed by setting the ROW_LIMIT attribute to "-1" (see the next example below).
 
@@ -210,20 +210,26 @@ The example below shows how to 1) remove the row limitation, and 2) target a dif
 that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> Euclid.ROW_LIMIT = -1   # Set this attribute to -1 to retrieve the full cone search output.
-  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
+  >>> job = Euclid.cone_search(coordinate='NGC 6505', radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
   >>> results = job.get_results()
+  >>> print(results[0:3])
   category             checksum                  creation_date      crpix1 crpix2 ... tile_index to_be_published zero_point zero_point_error        dist       
   -------- -------------------------------- ----------------------- ------ ------ ... ---------- --------------- ---------- ---------------- ------------------
   SCIENCE 528dcb14904e7501fca6f2cebf112f38 2024-10-26T14:01:21.038 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
   SCIENCE 77a35773063c6a088e92b294df817e7e 2024-10-26T13:50:13.676 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
   SCIENCE 758ae0c3d04d21544facd5d241ae3a07 2024-10-26T13:37:09.628 9600.0 9720.0 ...  102158889               1       29.8              0.1 0.1689677160687657
+  ...
 
+Notes:
+ * Once the table_name, ra_column_name, and dec_column_name argumentsare set by the user, the method does not recognise the default values. This is a known issue.
 
+ * The cone
 
 WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
 (ADQL 2.1,  see: https://ivoa.net/documents/ADQL/20231107/PR-ADQL-2.1-20231107.html#tth_sEc4.2.9).
 
 
+.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
 
 
 1.3. Synchronous query
