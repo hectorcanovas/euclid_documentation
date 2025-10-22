@@ -211,15 +211,13 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> Euclid.ROW_LIMIT = -1   # Set this attribute to -1 to retrieve the full cone search output.
   >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-  >>> cone_results = job.get_results()
-  >>> print(f"Found {len(cone_results)} results")
-  Found 2 results
+  >>> results = job.get_results()
+  category             checksum                  creation_date      crpix1 crpix2 ... tile_index to_be_published zero_point zero_point_error        dist       
+  -------- -------------------------------- ----------------------- ------ ------ ... ---------- --------------- ---------- ---------------- ------------------
+  SCIENCE 528dcb14904e7501fca6f2cebf112f38 2024-10-26T14:01:21.038 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
+  SCIENCE 77a35773063c6a088e92b294df817e7e 2024-10-26T13:50:13.676 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
+  SCIENCE 758ae0c3d04d21544facd5d241ae3a07 2024-10-26T13:37:09.628 9600.0 9720.0 ...  102158889               1       29.8              0.1 0.1689677160687657
 
-To return an unlimited number of rows set ``Euclid.ROW_LIMIT`` to -1.
-
-  >>> Euclid.ROW_LIMIT = -1
-
-HCANOVAS: ADD SOMETHING HERE ABOUT QUERY OBJECT 
 
 
 WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
