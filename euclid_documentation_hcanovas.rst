@@ -220,10 +220,11 @@ that the name is recognised by the Simbad, VizieR, or NED services.
   SCIENCE 758ae0c3d04d21544facd5d241ae3a07 2024-10-26T13:37:09.628 9600.0 9720.0 ...  102158889               1       29.8              0.1 0.1689677160687657
   ...
 
-Notes:
- * Once the table_name, ra_column_name, and dec_column_name argumentsare set by the user, the method does not recognise the default values. This is a known issue.
+**Notes:**
 
- * Users are stronlgy adviced to use the cone_search_ method instead of the query_object method. This method makes use of the ADQL_ BOX function that is deprecated and it can yield misleading results. 
+* Once the table_name, ra_column_name, and dec_column_name argumentsare set by the user, the method does not recognise the default values. This is a known issue.
+
+* Users are stronlgy adviced to use the cone_search_ method instead of the query_object method. This method makes use of the ADQL_ BOX function that is deprecated and it can yield misleading results. 
 
 
 .. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
