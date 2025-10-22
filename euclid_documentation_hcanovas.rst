@@ -224,10 +224,12 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 
 * Once the table_name, ra_column_name, and dec_column_name argumentsare set by the user, the method does not recognise the default values. This is a known issue.
 
-* Users are stronlgy adviced to use the cone_search_ method instead of the query_object method. This method makes use of the ADQL_ BOX function that is deprecated and it can yield misleading results. 
+* Users are stronlgy adviced to use the cone_search_ method instead of the query_object_ method. The latter makes use of the ADQL_ BOX function that is deprecated
+and can yield misleading results due to a geometric projection effect. 
 
 
 .. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
+.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
 
 
 1.3. Synchronous query
