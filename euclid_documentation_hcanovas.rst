@@ -235,7 +235,7 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 1.3. Synchronous query
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This is the recommended access mode for queries that 1) do not require excessive computation time and 2) generate tables with less than 2,000 rows - for details please see the Gaia Archive FAQ:
+This is the recommended access mode for queries that do not require excessive computation time and/or generate tables with less than 2,000 rows - for details please see the Gaia Archive FAQ:
 `Why does my query time out after 90 minutes? Why is my query limited to 3 million rows? <https://www.cosmos.esa.int/web/gaia/faqs#account-limits-2020>`_.
 The example below shows how to extract a subset of three sources with ellipticity larger than zero from the "mer_catalogue":
 
@@ -266,7 +266,7 @@ Note that deleting the "TOP 3" string in the query above will return a table wit
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the recommended mode for queries that are expected to output more than 2,000 rows and that require substantial execution time
-(noting that all the queries time out after 7200 seconds). The example below launches a cone search in combination with a filter applied to the ellipticity field, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab).
+(noting that all the queries time out after 7200 seconds). The query results are stored in the Archive (during 72 hours for anonymous users, and on the user area until the user deletes them for registered users). The example below generates a cone search combined with a constraint applied to the ellipticity, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab). For more ADQL_ examples please have a look at the Gaia Archive Help content (in particular, the `writting queries <https://www.cosmos.esa.int/web/gaia-users/archive/writing-queries>`_ section). 
 
 
   >>> query = "SELECT right_ascension, declination, object_id, vis_det, det_quality_flag, flux_detection_total, flux_vis_sersic, segmentation_area, kron_radius, DISTANCE(267.78, 65.53, right_ascension, declination) AS dist FROM mer_catalogue WHERE DISTANCE(267.78, 65.53, right_ascension, declination) < 0.1 AND ellipticity > 0"
@@ -274,11 +274,11 @@ This is the recommended mode for queries that are expected to output more than 2
   >>> print(job_async)
   >>> res  = job.get_results()
   >>> print(res)  
-        object_id       right_ascension      declination       flux_vis_sersic    ... segmentation_map_id segmentation_area    kron_radius             dist       
-   ------------------- ------------------ ----------------- --------------------- ... ------------------- ----------------- ------------------ -------------------
-   2678007183654307706  267.8007183299202 65.43077069259559    3.1258363723754883 ...     102158889039947               257   24.9636173248291 0.09960112595660932
-   2678134722654337678 267.81347229955026 65.43376784423499    0.2499639391899109 ...     102158889040543                53 18.347612380981445 0.09722946762358776
-   2677378712654348975 267.73787120423793 65.43489754122781   0.10290417075157166 ...     102158889040707                14 6.5500030517578125  0.0966959477506201
+   right_ascension      declination         object_id      vis_det det_quality_flag ...   flux_vis_sersic   segmentation_area    kron_radius             dist       
+  ------------------ ----------------- ------------------- ------- ---------------- ... ------------------- ----------------- ------------------ -------------------
+   267.7502407456637 65.43182123675119 2677502407654318212       1                2 ...  0.5517764091491699               101 28.096778869628906 0.09895246869367581
+  267.76847561971346 65.43194661918689 2677684756654319466       1                2 ... 0.12194870412349701                26 12.046527862548828  0.0981699461580744
+   267.7698066292422 65.43454030481347 2677698066654345403       1                0 ...  0.4004257917404175                61 15.562020301818848 0.09555336819768735
    ...
 
 
@@ -287,11 +287,11 @@ This is the recommended mode for queries that are expected to output more than 2
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 'On-the-fly' queries allow you to upload a table stored in VOTable_ format and perform a query on it in one single command. The uploaded tables
-will be deleted after the query is complete. Alternatively, as a registered user it is possible to upload a table and store it in the user space (see Sect. 2 below).
+are deleted after the query is complete. Alternatively, as a registered user it is possible to upload a table and store it in the user space (see Sect. 2 below).
 This feature is present both in the synchronous and asynchronous requests. 
 
 In the example below, the "my_table.xml" file is uploaded to the Archive and used to perform a JOIN operation with the mer_catalogue. Note the use of the
-"tap_upload" in the ADQL query.
+"tap_upload" in the ADQL_ query.
 
   >>> upload_resource = 'my_table.xml'
   >>> query           = "SELECT mer.object_id, flux_vis_sersic, fwhm FROM tap_upload.table_test JOIN mer_catalogue AS mer USING (object_id)"
