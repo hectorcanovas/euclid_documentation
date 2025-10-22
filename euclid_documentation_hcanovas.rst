@@ -190,7 +190,7 @@ To load only a table (TAP+ capability) and inspect its columns:
 
 This method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
 The exampe below shows how to launch a 0.5 degrees radius cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_. By default, this method targets
-the "mer_catalogue" and its outcome is restricted to 50 rows.
+the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation can be removed by setting the ROW_LIMIT attribute to "-1" (see the next example below).
 
   >>> from astropy.coordinates import SkyCoord
   >>> import astropy.units as u
@@ -206,12 +206,11 @@ the "mer_catalogue" and its outcome is restricted to 50 rows.
                       281               1 2677747417655202562  267.7747417649051 ... 1441085055363835648 0.002425010548904538   0.010827275337244202
 
 
-The example below shows how to remove the row limitation and target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
+The example below shows how to 1) remove the row limitation, and 2) target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
 that the name is recognised by the Simbad, VizieR, or NED services.
 
-  >>> Euclid.ROW_LIMIT = 2
+  >>> Euclid.ROW_LIMIT = -1   # Set this attribute to -1 to retrieve the full cone search output.
   >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-    INFO: Query finished. [astroquery.utils.tap.core]
   >>> cone_results = job.get_results()
   >>> print(f"Found {len(cone_results)} results")
   Found 2 results
