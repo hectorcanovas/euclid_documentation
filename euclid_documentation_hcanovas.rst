@@ -188,7 +188,7 @@ To load only a table (TAP+ capability) and inspect its columns:
 1.2. Cone search
 ^^^^^^^^^^^^^^^^
 
-This cone_search_ method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
+The cone_search_ method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
 The exampe below shows how to launch a 0.5 degrees radius cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_. By default, this method targets
 the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation can be removed by setting the ROW_LIMIT attribute to "-1" (see the next example below).
 
@@ -223,10 +223,7 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 Notes:
  * Once the table_name, ra_column_name, and dec_column_name argumentsare set by the user, the method does not recognise the default values. This is a known issue.
 
- * The cone
-
-WARNING: This method implements the ADQL BOX function that is deprecated in the latest version of the standard
-(ADQL 2.1,  see: https://ivoa.net/documents/ADQL/20231107/PR-ADQL-2.1-20231107.html#tth_sEc4.2.9).
+ * Users are stronlgy adviced to use the cone_search_ method instead of the query_object method. This method makes use of the ADQL_ BOX function that is deprecated and it can yield misleading results. 
 
 
 .. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
