@@ -188,21 +188,18 @@ To load only a table (TAP+ capability) and inspect its columns:
 1.2. Cone search
 ^^^^^^^^^^^^^^^^
 
-This query performs a cone search centered at the specified ra/dec coordinates with the provided radius argument.
+This method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
+The exampe below shows how to do a cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_ using a 0.5 degrees radius targeting the "mer_catalogue"
+(default target table). 
 
-  >>> #example cone search for source NGC6505
   >>> from astropy.coordinates import SkyCoord
   >>> import astropy.units as u
-  >>> coord = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
+  >>> coord  = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
   >>> radius = u.Quantity(0.5, u.deg)
-  >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-  INFO: Query finished. [astroquery.utils.tap.core]
-  >>> cone_results = job.get_results()
-  >>> print("Found", len(cone_results), "results")
-  Found 27 results
-  >>> cone_results['tile_index', 'creation_date', 'ra', 'dec', 'file_name', 'file_path', 'datalabs_path', 'filter_name', 'dist'][:5]  # doctest: +IGNORE_OUTPUT
-  <Table length=5>
-  tile_index      creation_date           ra       dec   ...                        file_path                                       datalabs_path                filter_name         dist
+  >>> job    = Euclid.cone_search(coordinate=coord, radius=radius, columns="*", async_job=True)
+  >>> res    = job.get_results()
+  >>> print(f"Found {len(cone_results)} results")
+    tile_index      creation_date           ra       dec   ...                        file_path                                       datalabs_path                filter_name         dist
     int64             str23            float64   float64 ...                          str55                                             str43                       str11          float64
   ---------- ----------------------- ----------- ------- ... ------------------------------------------------------- ------------------------------------------- ----------- -------------------
    102158889 2024-10-26T14:01:21.038 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_r 0.16895922479034217
