@@ -189,8 +189,8 @@ To load only a table (TAP+ capability) and inspect its columns:
 ^^^^^^^^^^^^^^^^
 
 This method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
-The exampe below shows how to do a cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_ using a 0.5 degrees radius targeting the "mer_catalogue"
-(default target table). 
+The exampe below shows how to launch a 0.5 degrees radius cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_. By default, this method targets
+the "mer_catalogue" and its outcome is restricted to 50 rows.
 
   >>> from astropy.coordinates import SkyCoord
   >>> import astropy.units as u
@@ -199,15 +199,15 @@ The exampe below shows how to do a cone search around `NGC 6505 <https://simbad.
   >>> job    = Euclid.cone_search(coordinate=coord, radius=radius, columns="*", async_job=True)
   >>> res    = job.get_results()
   >>> print(f"Found {len(cone_results)} results")
-    tile_index      creation_date           ra       dec   ...                        file_path                                       datalabs_path                filter_name         dist
-    int64             str23            float64   float64 ...                          str55                                             str43                       str11          float64
-  ---------- ----------------------- ----------- ------- ... ------------------------------------------------------- ------------------------------------------- ----------- -------------------
-   102158889 2024-10-26T14:01:21.038 267.3807789 65.4983 ... /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/MEGACAM /data/euclid_q1/Q1_R1/MER/102158889/MEGACAM   MEGACAM_r 0.16895922479034217
-   102158889 2024-10-26T13:50:13.676 267.3807789 65.4983 ...     /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/HSC     /data/euclid_q1/Q1_R1/MER/102158889/HSC       HSC_g 0.16895922479034217
-   102158889 2024-10-26T13:37:09.628 267.3807789 65.4983 ...    /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/NISP    /data/euclid_q1/Q1_R1/MER/102158889/NISP       NIR_Y 0.16895922479034217
+  basic_download_data_oid to_be_published      object_id       right_ascension   ...       gaia_id        gaia_match_quality           dist         
+  ----------------------- --------------- ------------------- ------------------ ... ------------------- -------------------- ----------------------
+                      281               1 2677813028655307424 267.78130284070573 ...                  --                   -- 0.00019012520229516453
+                      281               1 2677926210655368830  267.7926210570132 ... 1441085261522268928  0.05010449141263962   0.007807472554918013
+                      281               1 2677747417655202562  267.7747417649051 ... 1441085055363835648 0.002425010548904538   0.010827275337244202
 
 
-Queries return a limited number of rows controlled by ``Euclid.ROW_LIMIT``. To change the default behaviour set this appropriately.
+The example below shows how to remove the row limitation and target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
+that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> Euclid.ROW_LIMIT = 2
   >>> job = Euclid.cone_search(coordinate=coord, radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
