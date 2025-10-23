@@ -148,7 +148,7 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Table and column metadata are specified by the IVOA_ TAP_ recommendation. To load only table names metadata:
+Table and column metadata are specified by the IVOA_ TAP_ recommendation. To load only table names:
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   >>> print(f'* Found {len(tables)} tables')
