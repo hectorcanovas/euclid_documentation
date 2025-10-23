@@ -136,6 +136,8 @@ Examples
 
 It is recommended checking the status of Euclid TAP_ before executing this module. To do this:
 
+.. almost all code examples require remote-data access, thus only using this
+   one at the first example
 .. doctest-remote-data-all::
 
   >>> from astroquery.esa.euclid import Euclid
