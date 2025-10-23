@@ -74,16 +74,14 @@ The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 **Astroquery.esa.euclid**
 
 This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
-`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+_ REST service.
-TAP+_ is an extension of Table Access Protocol (TAP_)
-specified by the International Virtual Observatory Alliance (IVOA_).
+`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a `TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ REST service.
+`TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ is an extension of Table Access Protocol (TAP_)
+specified by the International Virtual Observatory Alliance (IVOA_) that incorporates dedicated user space capabilities (see Sect. 2 below). 
 The TAP_ query language is Astronomical Data Query Language (ADQL_). TAP_ provides two operation modes: 
 
-* Synchronous: the server response is generated as soon as the request is received, and the results are
-deleted after 72 hours.
+* Synchronous: the server response is generated as soon as the request is received.
 
-* Asynchronous: the server starts a job that will execute the request. The first response to the request
-is a link with information about the job status. The results are stored in the user space for registered users (see below).
+* Asynchronous: the server starts a job that will execute the request. The first response to the request is a link with information about the job status.
 
 
 On top of that, this package provides two access modes: 
@@ -103,7 +101,6 @@ shares a similar architecture and methods with this module.
 
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
-.. _TAP+: https://astroquery.readthedocs.io/en/latest/utils/tap.html
 .. _IVOA: http://www.ivoa.net
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
@@ -151,7 +148,7 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Table and column metadata are specified by the IVOA_ TAP_ recommendation. To load only table names metadata (TAP+ capability):
+Table and column metadata are specified by the IVOA_ TAP_ recommendation. To load only table names metadata:
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   >>> print(f'* Found {len(tables)} tables')
@@ -164,7 +161,7 @@ Table and column metadata are specified by the IVOA_ TAP_ recommendation. To loa
   ...
 
 
-To load all tables metadata (TAP compatible):
+To load all tables metadata:
 
   >>> tables = Euclid.load_tables()
   >>> print(tables[0])
@@ -174,7 +171,7 @@ To load all tables metadata (TAP compatible):
   Num. columns: 34
 
 
-To load only one table and inspect its columns (TAP+ capability):
+To load only one table and inspect its columns:
 
   >>> raw_detector_table = Euclid.load_table('sedm.raw_detector')
   >>> print(raw_detector_table)
