@@ -74,8 +74,8 @@ The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
 **Astroquery.esa.euclid**
 
 This Python module provides an Astroquery API to access to the metadata and datasets provided by the 
-`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+ REST service.
-TAP+ is an extension of Table Access Protocol (TAP_)
+`European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a TAP+_ REST service.
+TAP+_ is an extension of Table Access Protocol (TAP_)
 specified by the International Virtual Observatory Alliance (IVOA_).
 The TAP_ query language is Astronomical Data Query Language (ADQL_). TAP_ provides two operation modes: 
 
@@ -103,6 +103,7 @@ shares a similar architecture and methods with this module.
 
 
 .. _TAP: http://www.ivoa.net/documents/TAP/
+.. _TAP+: https://astroquery.readthedocs.io/en/latest/utils/tap.html
 .. _IVOA: http://www.ivoa.net
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
