@@ -103,8 +103,15 @@ shares a similar architecture and methods with this module.
 .. _TAP: http://www.ivoa.net/documents/TAP/
 .. _IVOA: http://www.ivoa.net
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
-.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
+.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
+.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
+.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
+.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
+.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
+.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
+.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
 
 
 
@@ -115,10 +122,6 @@ Euclid Q1_ contains different types of data, like catalogues (data tables), imag
 
 This Astroquery package is mostly geared to query and retrieve the data stored in the catalogues, but it also includes dedicated methods to retrieve the images and spectra (both stored as large FITS files). The latter are served via the DataLink_ IVOA_ protocol - see Sect. 3 below). It is also possible to directly access to these products (without having to retrieve them) using the "Euclid Q1" datalab that is publicly available in the `ESA Datalabs <https://datalabs.esa.int/>`_ e-science platform. Users aiming to analyse large Euclid datasets are encouraged to use this platform.
 
-
-
-.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
-.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
 
 
 
@@ -228,8 +231,7 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 * Users are encouraged to use the cone_search_ instead of the query_object_ method. The latter makes use of the ADQL_ BOX function that is deprecated and can yield misleading results due to geometric projection effects. 
 
 
-.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
-.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+
 
 
 1.3. Synchronous query
@@ -257,9 +259,6 @@ The job status can be inspected by typing:
   >>> print(job)
 
 Note that deleting the "TOP 3" string in the query above will return a table with 2,000 rows (sources).
-
-.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
-.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
 
 
 1.4. Asynchronous query
@@ -304,9 +303,6 @@ In the example below, the "my_table.xml" file is uploaded to the Archive and use
    2703077159642376093  0.8660399317741394 1.2481366395950317
    2695939228642370900    6.01658296585083 1.2056430578231812
 
-
-
-.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
 
 
 1.6. Getting products
