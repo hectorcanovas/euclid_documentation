@@ -285,12 +285,10 @@ This is the recommended mode for queries that are expected to output more than 2
 1.5 Query on an 'on-the-fly' uploaded table
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-This feature is available for both ASYNC and SYNC conections. 'On-the-fly' queries allow you to upload a table stored in VOTable_ format and perform a query on
-it in one single command. The uploaded tables are deleted after the query is complete. Alternatively, as a registered user it is possible to upload a table and
-store it in the user space (see Sect. 2 below). This feature is present both in the synchronous and asynchronous requests. 
-
-In the example below, the "my_table.xml" file is uploaded to the Archive and used to perform a JOIN operation with the mer_catalogue. Note the use of the
-"tap_upload" in the ADQL_ query.
+This feature is present both in the synchronous and asynchronous requests. 'On-the-fly' queries allow you to upload a table stored in VOTable_ format and
+perform a query on it in one single command. The uploaded tables are deleted after the query is complete. Alternatively, as a registered user it is possible
+to upload a table and store it in the user space (see Sect. 2 below). In the example below, the "my_table.xml" file is uploaded to the Archive and used to
+perform a JOIN operation with the mer_catalogue. Note the use of the "tap_upload" in the ADQL_ query.
 
   >>> upload_resource = 'my_table.xml'
   >>> query           = "SELECT mer.object_id, flux_vis_sersic, fwhm FROM tap_upload.table_test JOIN mer_catalogue AS mer USING (object_id)"
