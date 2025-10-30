@@ -296,7 +296,14 @@ that one wants to inspect. In the next example we proceed in two steps (see belo
 
 
 **Step 1:** First, we query the "mosaic_product" TAP_ table that contains the names of the FITS files with the background-subtracted mosaic images (associated with the Euclid product: DpdMerBksMosaic_)
-and their sky coverage (in its "fov" field). In the query below note 1) the use of the "instrument_name" field to only select "VIS" observations, 2) the radius variable that indicates the minimum distance between the target coordinates and the edges of the images, and 3) the use of the INTERSECTS ADQL_ clause in combination with the CIRCLE function. The target coordinates correspond to NGC 6505.
+and their sky coverage (in its "fov" field). In the query below note:
+
+#. the use of the "instrument_name" field to only select "VIS" observations, 
+
+#. the radius variable that indicates the minimum distance between the target coordinates and the edges of the images, and 
+
+#. the use of the INTERSECTS ADQL_ clause in combination with the CIRCLE function. The target coordinates correspond to NGC 6505.
+
 
   >>> radius   = 0.5/60.  # This radius sets the minimum distance between the target sky region and the image edges.
   >>> query    = f"SELECT file_name, file_path, datalabs_path, frame_seq, instrument_name, filter_name, ra, dec, creation_date, duration \
@@ -314,7 +321,7 @@ and their sky coverage (in its "fov" field). In the query below note 1) the use 
 
 **Notes:**
 
-* Given the size of the Euclid FITS images (~1.4 GB for the MER images and ~7 GB for calibrated VIS images) the download can require a few seconds or even minutes (depending on the internet bandwith).
+* Given the size of the Euclid FITS images (~1.4 GB for the MER images and ~7 GB for calibrated VIS images) downloading individual files is time consuming (depending on the internet bandwith).
 
 * Via ESA Datalabs_ you have direct access to all the Euclid products. In other words: there is no need to download them and this step can be skip.
 
