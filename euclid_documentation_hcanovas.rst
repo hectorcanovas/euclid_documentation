@@ -365,7 +365,6 @@ This method...
 
 
 
-
   >>> # Retrieve cutout ==============
   >>> file_path  = f"{res['file_path'][0]}/{res['file_name'][0]}"
   >>> cutout_out = Euclid.get_cutout(file_path=file_path, instrument = 'None',id='None', coordinate='NGC 6505',radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits')
@@ -409,66 +408,6 @@ This method...
 
 
 
-1.8. Getting product data (only useful for DR1 (I think...)!)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get the list of products associated with a given Euclid observation_id or tile_index (for mosaic):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> product_list_results = Euclid.get_product_list(tile_index="102018211", product_type="DpdMerBksMosaic")
-  >>> print("Found", len(product_list_results), "results")
-  Found 12 results
-  >>> print(product_list_results)
-                                      file_name                                      mosaic_product_oid tile_index instrument_name filter_name category second_type     ra       dec   technique
-                                        str255                                             int64          int64         str255        str255    str255     str255    float64   float64   str255
-  ---------------------------------------------------------------------------------- ------------------ ---------- --------------- ----------- -------- ----------- ---------- ------- ---------
-  EUC_MER_BGSUB-MOSAIC-DES-I_TILE102018211-31E2C9_20241018T143048.358037Z_00.00.fits               1399  102018211           DECAM     DECAM_i  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-    EUC_MER_BGSUB-MOSAIC-VIS_TILE102018211-ACBD03_20241018T142710.276838Z_00.00.fits               1395  102018211             VIS         VIS  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  EUC_MER_BGSUB-MOSAIC-DES-G_TILE102018211-D9D163_20241018T143010.768685Z_00.00.fits               1394  102018211           DECAM     DECAM_g  SCIENCE         SKY 57.9990741   -51.5     IMAGE
-  ...
-
-The method returns a list of products as an `~astropy.table.Table`. It is also possible to search by observation_id, but not by both parameters simultaneously.
-
-It is possible to retrieve LE3 data (scientific data) by observation_id or tile_index (but not by both simultaneously) and/or for different categories, groups and product types. The available values
-for these parameters are summarized in section :ref:`appendix`.
-
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> le3_product_list = Euclid.get_scientific_product_list(tile_index=22)
-  >>> print("Found", len(le3_product_list), "results")
-  Found 3 results
-  >>> print(le3_product_list)
-  basic_download_data_oid  product_type                            product_id                          observation_id_list tile_index_list patch_id_list filter_name
-  ----------------------- -------------- ------------------------------------------------------------- ------------------- --------------- ------------- -----------
-                    47191 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R5-output_tiles-27                  {}            {22}            {}
-                    47132 DpdLE3clCLTile PPO_REGREPROC1_R2_CLTEST_R0_CLTILINGPOLYHR_R2-output_tiles-27                  {}            {22}            {}
-                    47233 DpdLE3clCLTile       PPO_REGREPROC1_R2_CLTEST_R0_CLTILING_R6-output_tiles-27                  {}            {22}            {}
-
-
-In the following example, for the Clusters of Galaxies category, and the group GrpCatalog, we retrieve all the DET-CL AMICO auxiliary Data Product products (DpdLE3clAmicoAux):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> results = euclid.get_scientific_product_list(category='Clusters of Galaxies', group='GrpCatalog', product_type='DpdLE3clAmicoAux')
-  >>> print("Found", len(le3_product_list), "results")
-  Found 2 results
-  >>> print(le3_product_list)
-  basic_download_data_oid   product_type                      product_id                    observation_id_list tile_index_list patch_id_list filter_name
-  ----------------------- ---------------- ------------------------------------------------ ------------------- --------------- ------------- -----------
-                    47257 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R3-amico_aux-0                  {}              {}            {}
-                    47258 DpdLE3clAmicoAux PPO_REGREPROC1_R2_CLTEST_R0_CLDET_R7-amico_aux-0                  {}              {}            {}
-
-
-
-
-
-
-
 
 
 2. Authenticated access
@@ -478,62 +417,23 @@ Authenticated users are able to access to TAP+ capabilities (shared tables, pers
 authenticate a user, ``login`` method must be called. After a successful authentication, the user will be authenticated
 until the ``logout`` method is called.
 
-All previous methods (``query_object``, ``cone_search``, ``load_table``, ``load_tables``, ``launch_job``) explained for
-non authenticated users are applicable for authenticated ones.
-
-The main differences are:
+All the methods detailed above are applicable for authenticated users, who benefit from the following advantages:
 
 * Asynchronous results are kept at the server side forever (until the user decides to remove one of them).
-* Users can access to shared tables.
+* Users can upload tables to their user space and share them with other registered users via the "Group" functionality
+* It is possible to use the built-in cross-match functionality that streamline the generation of basic positional cross-matches between tables.
 
 
 2.1. Login/Logout
 ^^^^^^^^^^^^^^^^^
 
-There are several ways to log in to the Euclid archive.
-
-**Login through graphic interface**
-
-*Note: The Python Tkinter module is required to use the login_gui method.*
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
+There are several ways to log in to the Euclid archive, as detailed below:
 
   >>> from astroquery.esa.euclid import Euclid
-  >>> Euclid.login_gui()
-
-
-**Login through command line**
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
+  >>> Euclid.login_gui()      # Login via graphic interface (pop-up window)
   >>> Euclid.login()
-  >>> User: user
-  >>> Password: pwd (not visible)
-
-or
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.login(user='userName', password='userPassword')
-
-
-It is possible to use a file where the credentials are stored:
-
-*The file must contain user and password in two different lines.*
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.login(credentials_file='my_credentials_file')
-
-To perform a logout:
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
+  >>> Euclid.login(user='<user name>', password='<password>')
+  >>> Euclid.login(credentials_file='<path to credentials file>') # The file must contain just two rows: the user name (first row) and the password.
   >>> Euclid.logout()
 
 
