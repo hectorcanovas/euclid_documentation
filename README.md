@@ -1,3 +1,3 @@
 # Goal: update Astroquery Euclid documentation
 
-Work in progress
+Link to Astroquery.esa.euclid documentation: https://github.com/astropy/astroquery/tree/main/docs/esa/euclid
