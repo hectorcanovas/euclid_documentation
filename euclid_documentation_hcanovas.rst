@@ -355,15 +355,21 @@ and their sky coverage (in its "fov" field). In the query below note:
 1.7. MER Cutouts
 ^^^^^^^^^^^^^^^^^^
 
-In many situations, users are only interested in downloading a small portion of the MER (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally. For reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB.
-The example below builts on the "Step 1" above, as the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table are the main input to the get_cutout_ method.
+In many situations, users are only interested in downloading a small portion of the MER (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally - for reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB. The workflow is similar to the retrieval of Euclid products detailed in Sect 1.6 above as the first step consists in finding the FITS files that contain the images that cover the target sky region. Therefore, for this example we start by using the results generated in the "Step 1" above and combinining the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table to create the main input of the get_cutout_ method.
 
-Note: This method uses the astroquery cutout service to download a cutout fits image from the Archive, and it only works for MER images. For more advanced use cases please see the Cutouts.ipynb notebook available in the Euclid Datalabs_.
+**Notes:**
+This method... 
+
+* makes use of the `Astroquery cutout service <https://astroquery.readthedocs.io/en/latest/image_cutouts/image_cutouts.html>`_ to download a cutout fits image from the Archive, and it only works for MER images. For more advanced use cases please see the Cutouts.ipynb notebook available in the Euclid Datalabs_.
+
+* accepts both Astropy SkyCoord_ coordinates and Simbad/VizieR/NED valid names (as string).
+
+
 
 
   >>> # Retrieve cutout ==============
   >>> file_path  = f"{res['file_path'][0]}/{res['file_name'][0]}"
-  >>> cutout_out = Euclid.get_cutout(file_path=file_path, instrument = 'None',id='None', coordinate=coords,radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits')
+  >>> cutout_out = Euclid.get_cutout(file_path=file_path, instrument = 'None',id='None', coordinate='NGC 6505',radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits')
   >>> cutout_out = cutout_out[0]
   >>> # Plot image ===================
   >>> hdul       = fits.open(cutout_out)
@@ -399,7 +405,7 @@ Note: This method uses the astroquery cutout service to download a cutout fits i
 .. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
 .. _Datalabs: https://datalabs.esa.int/
 .. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
-
+.. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
 
 
 
