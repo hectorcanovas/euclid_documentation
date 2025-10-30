@@ -317,7 +317,7 @@ and their sky coverage (in its "fov" field). In the query below note:
   EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.fits /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/VIS /data/euclid_q1/Q1_R1/MER/102158889/VIS             VIS ... DpdMerBksMosaic            49  102158889
 
 
-**Step 2:** Launch the get_product_ method using as input the FITS file name(s) included in the output of the query above.
+**Step 2:** Launch the get_product_ method using as input the FITS file name(s) included in the output of the query above. The method downloads the fits file(s) and returns the local path where the product(s) is saved.
 
 **Notes:**
 
@@ -350,7 +350,6 @@ and their sky coverage (in its "fov" field). In the query below note:
 
 
 
-The method downloads the fits file(s) and returns the local path where the product(s) is saved.
 
 
 
