@@ -294,13 +294,6 @@ In addition to catalogues that can be queried via ADQL_, the Euclid Archive also
 use case is "I want to download the Euclid image of my favourite object". In order to do this, one must know the coordinates of the selected object, the instrument that was used to acquire the observation, and the type of product (e.g. raw, calibrated, mosaic, ...)
 that one wants to inspect. In the next example we proceed in two steps (see below).
 
-**Notes:**
-
-* The download typically take a few minutes given the size of the Euclid files (~1.4 GB for the MER images and ~7 GB for calibrated VIS images).
-
-* When running this notebook on ESA Datalabs you have access to all the products directly through the data volume and don't need to download them - this method is an alternative for working outside ESA Datalabs or accessing data that is not in a data volume.
-
-
 
 **Step 1:** First, we query the "mosaic_product" TAP_ table that contains the names of the FITS files with the background-subtracted mosaic images (associated with the Euclid product: DpdMerBksMosaic_)
 and their sky coverage (in its "fov" field). In the query below note 1) the use of the "instrument_name" field to only select "VIS" observations, 2) the radius variable that indicates the minimum distance between the target coordinates and the edges of the images, and 3) the use of the INTERSECTS ADQL_ clause in combination with the CIRCLE function. The target coordinates correspond to NGC 6505.
@@ -317,7 +310,14 @@ and their sky coverage (in its "fov" field). In the query below note 1) the use 
   EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.fits /euclid/repository_idr/iqr1/Q1_R1/MER/102158889/VIS /data/euclid_q1/Q1_R1/MER/102158889/VIS             VIS ... DpdMerBksMosaic            49  102158889
 
 
-**Step 2:** Launch the get_product_ method using as input the FITS file name(s) included in the output of the query above. Note that the download takes a few minutes given the size of the Euclid images. 
+**Step 2:** Launch the get_product_ method using as input the FITS file name(s) included in the output of the query above.
+
+**Notes:**
+
+* Given the size of the Euclid FITS images (~1.4 GB for the MER images and ~7 GB for calibrated VIS images) the download can require a few seconds or even minutes (depending on the internet bandwith).
+
+* Via ESA Datalabs_ you have direct access to all the Euclid products. In other words: there is no need to download them and this step can be skip.
+
 
   >>> file_name = res['file_name'][0]
   >>> print("Downloading file:", file_name)
