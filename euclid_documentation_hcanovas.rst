@@ -306,10 +306,11 @@ and their sky coverage (in its "fov" field). In the query below note:
 
 
   >>> radius   = 0.5/60.  # This radius sets the minimum distance between the target sky region and the image edges.
-  >>> query    = f"SELECT file_name, file_path, datalabs_path, frame_seq, instrument_name, filter_name, ra, dec, creation_date, duration \
-                 FROM calibrated_frame \
+  >>> query    = f"SELECT file_name, file_path, datalabs_path, instrument_name, filter_name, ra, dec, creation_date, product_type, patch_id_list, tile_index \
+                 FROM mosaic_product \
                  WHERE instrument_name='VIS' AND \
                  INTERSECTS(CIRCLE(267.7808, 65.5308, {radius}), fov)=1"
+
   >>> res      = Euclid.launch_job_async(query).get_results()
   >>> print(res)
                                      file_name                                                          file_path                                   datalabs_path              instrument_name ...   product_type  patch_id_list tile_index
@@ -350,38 +351,14 @@ and their sky coverage (in its "fov" field). In the query below note:
 
 
 
-
-
-
-
-
-
-.. _TAP: http://www.ivoa.net/documents/TAP/
-.. _IVOA: http://www.ivoa.net
-.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
-.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
-.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
-.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
-.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
-.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
-.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
-.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
-.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
-.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
-.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
-.. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
-.. _Datalabs: https://datalabs.esa.int/
-.. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
-
-
-
-1.7. Cutout search
+1.7. MER Cutouts
 ^^^^^^^^^^^^^^^^^^
 
-To download a cutout given its file path, instrument and obs_id, and the cutout region, the method downloads the fits file of the cutout and returns a list containing the local path where the cutout is saved:
+In many situations, users are only interested in downloading a small portion of the MERged (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally. For reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB.
+The example below builts on the "Step 1" above, as it makes use of the "file_path" and "file_name" values 
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
+Note: This method uses the astroquery cutout service to download a cutout fits image from the Archive, and it only works for MER images. For more advanced use cases please see the Cutouts.ipynb notebook available in the Euclid Datalabs_.
+
 
   >>> # the map cone_results was previously obtained by the query executed in section 2.1
   >>> from astroquery.esa.euclid import Euclid
@@ -442,6 +419,26 @@ To download the products for a given EUCLID observation_id (observations) or til
   >>> from astroquery.esa.euclid import Euclid
   >>> mos_id = 1399
   >>> path = Euclid.get_observation_products(id=mos_id, product_type='mosaic', filter="VIS", output_file=f"{output_folder}/products_{mos_id}.fits", verbose=True)
+
+
+
+.. _TAP: http://www.ivoa.net/documents/TAP/
+.. _IVOA: http://www.ivoa.net
+.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
+.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
+.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
+.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
+.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
+.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
+.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
+.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
+.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
+.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
+.. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
+.. _Datalabs: https://datalabs.esa.int/
+.. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
 
 
 
