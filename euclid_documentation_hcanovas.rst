@@ -343,10 +343,11 @@ and their sky coverage (in its "fov" field). In the query below note:
   >>> colorbar = plt.colorbar()
 
 
-.. image:: images/EUC_MER_BGSUB-MOSAIC-NIR-H_TILE102158889-ED035A_20241024T212936.705156Z_00.00.png
+.. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
    :align: center
    :scale: 100%
-   :alt: EUC_MER_BGSUB-MOSAIC-NIR-H_TILE102158889-ED035A_20241024T212936.705156Z_00.00.fits
+   :alt: EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.fits
+
 
 
 The method downloads the fits file(s) and returns the local path where the product(s) is saved.
