@@ -441,14 +441,14 @@ There are several ways to log in to the Euclid archive, as detailed below:
 2.2. User space management: table upload
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-It is now possible to store a table in the private user space. The table to be uploaded can
+Registered users can store up to 1 GB of tables in their user space. The table to be uploaded can
 be in a VOTable_ located at a given URL, a table stored in a local file in the user machine,
 a pre-computed Astropy table file or a job executed in the Euclid archive.
 
 
 Each user has a database schema described as: 'user_<user_login_name>'. For instance, if a
-login name is 'joe', the database schema is 'user_joe'. Your uploaded table can be
-referenced as 'user_joe.table_name'
+login name is 'joe', its database schema is 'user_joe'. The uploaded table can be
+referenced as 'user_joe.<table_name>'.
 
 2.2.1. Uploading table from URL
 """""""""""""""""""""""""""""""""""
