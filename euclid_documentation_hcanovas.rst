@@ -342,6 +342,7 @@ and their sky coverage (in its "fov" field). In the query below note:
   >>> plt.figure()
   >>> plt.imshow(image_data, cmap='gray', origin='lower', norm=ImageNormalize(image_data, interval=PercentileInterval(99.1), stretch=AsinhStretch()))
   >>> colorbar = plt.colorbar()
+  >>> hdul.close()
 
 
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
@@ -354,42 +355,23 @@ and their sky coverage (in its "fov" field). In the query below note:
 1.7. MER Cutouts
 ^^^^^^^^^^^^^^^^^^
 
-In many situations, users are only interested in downloading a small portion of the MERged (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally. For reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB.
-The example below builts on the "Step 1" above, as it makes use of the "file_path" and "file_name" values 
+In many situations, users are only interested in downloading a small portion of the MER (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally. For reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB.
+The example below builts on the "Step 1" above, as the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table are the main input to the get_cutout_ method.
 
 Note: This method uses the astroquery cutout service to download a cutout fits image from the Archive, and it only works for MER images. For more advanced use cases please see the Cutouts.ipynb notebook available in the Euclid Datalabs_.
 
 
-  >>> # the map cone_results was previously obtained by the query executed in section 2.1
-  >>> from astroquery.esa.euclid import Euclid
-  >>> from astropy.coordinates import SkyCoord
-  >>> import astropy.units as u
-  >>> example_file = cone_results[cone_results['instrument_name'] == 'VIS'][0]
-  >>> # getting the arguments from the cone search result table automatically
-  >>> file_path=example_file["file_path"] + "/" + example_file["file_name"]
-  >>> instrument=example_file["instrument_name"]
-  >>> obs_id=example_file["tile_index"]
-  >>> radius= 0.2 * u.arcmin
-  >>> coord = SkyCoord("17h51m07.4s +65d31m50.8s", frame='icrs')
-  >>> output_folder= 'example_outputs/'
-  >>> if not os.path.exists(output_folder):
-         os.makedirs(output_folder)
-  >>> output_file=output_folder + 'cutouts/astroquery_cutout_example.fits'
-  >>> saved_cutout_filepath = Euclid.get_cutout(file_path=file_path, instrument=instrument, id=obs_id, coordinate=coord, radius=radius, output_file=output_file)
-  >>> print("Cutout saved at", saved_cutout_filepath)
-  Cutout saved at ['example_outputs/cutouts/astroquery_cutout_example.fits']
-  >>>
-  >>> #looking at the cutout we made
-  >>> hdul = fits.open(saved_cutout_filepath[0])
-  >>> print(fits.info(saved_cutout_filepath[0]))
-  Filename: example_notebook_outputs/cutouts/astroquery_cutout_example.fits
+  >>> # Retrieve cutout ==============
+  >>> file_path  = f"{res['file_path'][0]}/{res['file_name'][0]}"
+  >>> cutout_out = Euclid.get_cutout(file_path=file_path, instrument = 'None',id='None', coordinate=coords,radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits')
+  >>> cutout_out = cutout_out[0]
+  >>> # Plot image ===================
+  >>> hdul       = fits.open(cutout_out)
   >>> image_data = hdul[0].data
-  No.    Name      Ver    Type      Cards   Dimensions   Format
-  0  PRIMARY       1 PrimaryHDU      49   (241, 241)   float32
-  None
-  >>> plt.imshow(image_data, interpolation='nearest', cmap='gray', origin='lower', norm=ImageNormalize(image_data, interval=PercentileInterval(99.5), stretch=AsinhStretch()))
-  >>> plt.colorbar()
-
+  >>> plt.figure()
+  >>> plt.imshow(image_data, cmap='gray', origin='lower', norm=ImageNormalize(image_data, interval=PercentileInterval(99.1), stretch=AsinhStretch()))
+  >>> colorbar = plt.colorbar()
+  >>> hdul.close()
 
 
 .. image:: images/astroquery_cutout_example.png
@@ -397,28 +379,6 @@ Note: This method uses the astroquery cutout service to download a cutout fits i
    :scale: 100%
    :alt: astroquery_cutout_example.fits
 
-
-Below is the equivalent version but copying arguments manually (for clarity).
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> file_path="EUC_MER_BGSUB-MOSAIC-VIS_TILE101158889-D08FBD_20240113T021028.995617Z_00.00.fits"
-  >>> saved_cutout_filepath = Euclid.get_cutout(file_path=file_path, instrument="VIS", id="101158889", coordinate=coord, radius=radius, output_file='example_outputs/test_cutout_example.fits')
-  >>> print("Cutout saved at", saved_cutout_filepath)
-  Cutout saved at ['example_outputs/cutouts/astroquery_cutout_example.fits']
-
-
-
-To download the products for a given EUCLID observation_id (observations) or tile_index (mosaics):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> #downloading all products for observation id: 102018211
-  >>> from astroquery.esa.euclid import Euclid
-  >>> mos_id = 1399
-  >>> path = Euclid.get_observation_products(id=mos_id, product_type='mosaic', filter="VIS", output_file=f"{output_folder}/products_{mos_id}.fits", verbose=True)
 
 
 
