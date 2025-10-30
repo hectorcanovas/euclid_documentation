@@ -380,7 +380,7 @@ This method...
 
 
 
-.. image:: images/astroquery_cutout_example.png
+.. image:: images/cutout_example.png
    :align: center
    :scale: 100%
 
