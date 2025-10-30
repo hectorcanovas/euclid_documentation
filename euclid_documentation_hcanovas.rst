@@ -196,15 +196,16 @@ the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation ca
 The example below shows how to 1) remove the row limitation, and 2) target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
 that the name is recognised by the Simbad, VizieR, or NED services.
 
-  >>> Euclid.ROW_LIMIT = -1   # Set this attribute to -1 to retrieve the full cone search output.
-  >>> job              = Euclid.cone_search(coordinate='NGC 6505', radius=radius, table_name="sedm.mosaic_product", ra_column_name="ra", dec_column_name="dec", columns="*", async_job=True)
-  >>> results          = job.get_results()
-  >>> print(results[0:3])
-  category             checksum                  creation_date      crpix1 crpix2 ... tile_index to_be_published zero_point zero_point_error        dist       
-  -------- -------------------------------- ----------------------- ------ ------ ... ---------- --------------- ---------- ---------------- ------------------
-  SCIENCE 528dcb14904e7501fca6f2cebf112f38 2024-10-26T14:01:21.038 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
-  SCIENCE 77a35773063c6a088e92b294df817e7e 2024-10-26T13:50:13.676 9600.0 9720.0 ...  102158889               1       30.0              0.1 0.1689677160687657
-  SCIENCE 758ae0c3d04d21544facd5d241ae3a07 2024-10-26T13:37:09.628 9600.0 9720.0 ...  102158889               1       29.8              0.1 0.1689677160687657
+  >>> radius           = u.Quantity(0.2, u.deg)
+  >>> Euclid.ROW_LIMIT = -1               # Set this attribute to -1 to retrieve the full output of the cone_search method.
+  >>> job              = Euclid.cone_search(coordinate='NGC 6505', radius=radius, table_name="sedm.calibrated_frame", ra_column_name="ra", dec_column_name="dec", async_job=True, columns = ['ra', 'dec', 'datalabs_path', 'file_path', 'file_name', 'observation_id', 'instrument_name'])
+  >>> res              = job.get_results()
+  >>> print(f"* Found {len(res)} results")
+  >>> print(res)
+     ra          dec                datalabs_path                               file_path                                                file_name                             observation_id instrument_name         dist       
+------------ ----------- ----------------------------------- ----------------------------------------------- ----------------------------------------------------------------- -------------- --------------- -------------------
+267.99354663 65.60351547 /data/euclid_q1/Q1_R1/VIS_QUAD/2704 /euclid/repository_idr/iqr1/Q1_R1/VIS_QUAD/2704 EUC_VIS_SWL-DET-002704-00-2-0000000__20241017T042759.344384Z.fits           2704             VIS 0.11414714851731637
+267.99354663 65.60351547      /data/euclid_q1/Q1_R1/NIR/2704      /euclid/repository_idr/iqr1/Q1_R1/NIR/2704         EUC_NIR_W-CAL-IMAGE_H-2704-0_20240930T191946.868701Z.fits           2704            NISP 0.11414714851731637
   ...
 
 **Notes:**
