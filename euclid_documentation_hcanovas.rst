@@ -348,7 +348,6 @@ and their sky coverage (in its "fov" field). In the query below note:
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
    :align: center
    :scale: 100%
-   :alt: EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.fits
 
 
 
@@ -378,6 +377,7 @@ This method...
   >>> plt.imshow(image_data, cmap='gray', origin='lower', norm=ImageNormalize(image_data, interval=PercentileInterval(99.1), stretch=AsinhStretch()))
   >>> colorbar = plt.colorbar()
   >>> hdul.close()
+
 
 
 .. image:: images/astroquery_cutout_example.png
