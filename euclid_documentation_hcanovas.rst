@@ -404,6 +404,7 @@ This method...
 .. _Datalabs: https://datalabs.esa.int/
 .. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
 .. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
+.. _upload_table: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.upload_table
 
 
 
@@ -432,107 +433,51 @@ There are several ways to log in to the Euclid archive, as detailed below:
   >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.login_gui()      # Login via graphic interface (pop-up window)
   >>> Euclid.login()
-  >>> Euclid.login(user='<user name>', password='<password>')
+  >>> Euclid.login(user='<user_name>', password='<password>')
   >>> Euclid.login(credentials_file='<path to credentials file>') # The file must contain just two rows: the user name (first row) and the password.
   >>> Euclid.logout()
 
+All the programmatic examples below should start by login to the Archive as explained above. To reduce verbosity, the "Euclid.login()" statement has been obviated in the examples.
 
 
 2.2. User space management: table upload
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Registered users can store up to 1 GB of tables in their user space. The table to be uploaded can
-be in a VOTable_ located at a given URL, a table stored in a local file in the user machine,
-a pre-computed Astropy table file or a job executed in the Euclid archive.
+Registered users can store up to 1 GB of tables in their user space by means of the upload_table_ method. The table to be uploaded can be a table stored in a
+local file in the user machine, a pre-computed Astropy table file or a job executed in the Euclid archive.
 
 
-Each user has a database schema described as: 'user_<user_login_name>'. For instance, if a
+Each user has a database schema described as: 'user_<user_name>'. For instance, if a
 login name is 'joe', its database schema is 'user_joe'. The uploaded table can be
-referenced as 'user_joe.<table_name>'.
+referenced by its "full_qualified_table_name", which is defined as: 'user_<user_name>.<table_name>'. As a practical example, if the user "joe" uploads a table named as "my_table" in the Archive user space,
+then it can be queried (or used inside complex ADQL queries) as detailed below:
 
-2.2.1. Uploading table from URL
-"""""""""""""""""""""""""""""""""""
-
-An already generated VOTable, accessible through a URL, can be uploaded to Euclid archive.
-
-The following example launches a query to Vizier TAP ('url' parameter). The result is a
-VOTable that can be uploaded to the user's private area.
-
-Your schema name will be automatically added to the provided table name:
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.login()
-  >>> # Provide a URL pointing to valid VOTable resource
-  >>> url = ("https://tapvizier.cds.unistra.fr/TAPVizieR/tap/sync/?"
-  ...        "REQUEST=doQuery&lang=ADQL&FORMAT=votable&"
-  ...        "QUERY=select+*+from+TAP_SCHEMA.columns+where+table_name='II/336/apass9'")
-  >>> job = Euclid.upload_table(upload_resource=url, table_name="table_test_from_url",
-  ... table_description="Some description")
-  Job '1539932326689O' created to upload table 'table_test_from_url'.
-
-Now, you can query your table as follows (a full qualified table name must be provided,
-i.e.: *user_<your_login_name>.<table_name>*. Note that if the <table_name> contains capital letters, it must be
-surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> full_qualified_table_name = 'user_<your_login_name>.table_test_from_url'
-  >>> query = 'select * from ' + full_qualified_table_name
+  >>> query = f'SELECT * FROM user_joe.my_table'
   >>> job = Euclid.launch_job(query=query)
   >>> results = job.get_results()
+
+
 
 
 2.2.2. Uploading table from file
 """""""""""""""""""""""""""""""""""
 
-A file containing a table can be uploaded to the user private area. Only a file associated to any of the formats described in
-https://docs.astropy.org/en/stable/io/unified.html#built-in-table-readers-writers, and automatically identified by its suffix
-or content can be used. Note that for a multi-extension fits file with multiple tables, the first table found will be used.
-For any other format, the file can be transformed into an astropy Table (https://docs.astropy.org/en/stable/io/unified.html#getting-started-with-table-i-o)
-and passed to the method.
-
+A file containing a table can be uploaded to the user private area. The formats accepted are: VOTable, FITS, CSV, ECSV, and ASCII. Note that for a multi-extension fits file with multiple tables, the first table found will be used.
 The parameter 'format' must be provided when the input file is not a votable file.
 
-Your schema name will be automatically added to the provided table name.
+  >>> job = Euclid.upload_table(upload_resource="1535553556177O-result.vot", table_name="my_table_from_file", format="votable")
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.login()
-  >>> job = Euclid.upload_table(upload_resource="1535553556177O-result.vot", table_name="table_test_from_file", format="votable")
-  Sending file: 1535553556177O-result.vot
-  Uploaded table 'table_test_from_file'.
-
-Now, you can query your table as follows (a full qualified table name must be provided,
-i.e.: *user_<your_login_name>.<table_name>*. Note that if the <table_name> contains capital letters, it must be
-surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> full_qualified_table_name = 'user_<your_login_name>.table_test_from_file'
-  >>> query = 'select * from ' + full_qualified_table_name
-  >>> job = Euclid.launch_job(query=query)
-  >>> results = job.get_results()
 
 
 2.2.3. Uploading table from an astropy Table
 """""""""""""""""""""""""""""""""""
 
-A votable can be uploaded to the server in order to be used in a query. Your schema name will be automatically added to the provided table name.
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
+An `Astropy table <https://docs.astropy.org/en/stable/table/index.html>`_ object  can be uploaded as follows:
 
   >>> from astropy.table import Table
   >>> a=[1,2,3]
   >>> b=['a','b','c']
   >>> table = Table([a,b], names=['col1','col2'], meta={'meta':'first table'})
-  >>> # Upload
-  >>> Euclid.login()
   >>> Euclid.upload_table(upload_resource=table, table_name='table_test_from_astropy')
 
 
@@ -577,6 +522,19 @@ surrounded by quotation marks since it contains capital letters.):
   >>> query = 'select * from ' + full_qualified_table_name
   >>> job = Euclid.launch_job(query=query)
   >>> results = job.get_results()
+
+
+Now, you can query your table as follows (a full qualified table name must be provided,
+i.e.: *user_<your_login_name>.<table_name>*. Note that if the <table_name> contains capital letters, it must be
+surrounded by quotation marks, i.e.: *user_<your_login_name>."<table_name>"*):
+
+
+  >>> full_qualified_table_name = 'user_<your_login_name>.table_test_from_url'
+  >>> query = 'select * from ' + full_qualified_table_name
+  >>> job = Euclid.launch_job(query=query)
+  >>> results = job.get_results()
+
+
 
 
 2.2.5 Deleting table
