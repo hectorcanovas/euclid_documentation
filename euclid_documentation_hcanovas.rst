@@ -551,72 +551,28 @@ It is possible to share tables with other users. You have to create a group, pop
 group with users, and share your table to that group. Then, any user belonging to that group
 will be able to access your shared table in a query.
 
-2.3.1. Creating a group
+2.3.1. Listing shared groups
 """""""""""""""""""""""""""""""""""
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.login()
-  >>> Euclid.share_group_create(group_name="my_group", description="description")
-
-2.3.2. Removing a group
-"""""""""""""""""""""""""""""""""""
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.share_group_delete(group_name="my_group")
-
-2.3.3. Listing groups
-"""""""""""""""""""""""""""""""""""
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
 
   >>> groups = Euclid.load_groups()
   >>> for group in groups:
   ...     print(group.title)
 
-2.3.4. Adding users to a group
+
+2.3.2. Managing group
 """""""""""""""""""""""""""""""""""
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
+  >>> Euclid.share_group_create(group_name="my_group", description="description")  # Group creation
+  >>> Euclid.share_group_delete(group_name="my_group") # Group deletion
+  >>> Euclid.share_group_add_user(group_name="my_group",user_id="<user_login_name")     # Adding registered users to the group
+  >>> Euclid.share_group_delete_user(group_name="my_group",user_id="<user_login_name>") # Removing registered users from the group
+  >>> Euclid.share_table(group_name="my_group",table_name="user_<user_login_name>.my_table",description="description") # Sharing table with a group
+  >>> Euclid.share_table_stop(table_name="user_<user_login_name>.my_table", group_name="my_group") # Stop sharing table with a group
 
-  >>> Euclid.share_group_add_user(group_name="my_group",user_id="<user_login_name")
 
-2.3.5. Removing users from a group
+2.3.2 Listing shared tables
 """""""""""""""""""""""""""""""""""
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.share_group_delete_user(group_name="my_group",user_id="<user_login_name>")
-
-2.3.6. Sharing a table to a group
-"""""""""""""""""""""""""""""""""""
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.share_table(group_name="my_group",
-  ...                  table_name="user_<user_login_name>.my_table",
-  ...                  description="description")
-
-2.3.7. Stop sharing a table
-"""""""""""""""""""""""""""""""""""
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> Euclid.share_table_stop(table_name="user_<user_login_name>.my_table", group_name="my_group")
-
-
-2.3.8 Listing shared tables
-"""""""""""""""""""""""""""""""""""
-
-In the Euclid archive user tables can be shared among user groups.
 
 To obtain a list of the tables shared to a user type the following:
 
@@ -630,12 +586,10 @@ To obtain a list of the tables shared to a user type the following:
     catalogue.phz_galaxy_sed
     ...
 
-.. _uploading_table_to_user_space:
 
 
 
-
-2.5. Cross match
+2.4. Cross match
 ^^^^^^^^^^^^^^^^
 
 It is possible to run a geometric cross-match between the RA/Dec coordinates of two tables using the crossmatch function
@@ -645,14 +599,10 @@ table.
 
 The cross-match can be executed in one single step by the following method
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
 
-  >>> Euclid.login()
   >>> full_qualified_table_name = 'user_<your_login_name>.my_sources'
-  >>> job = Euclid.cross_match_basic(table_a_full_qualified_name=full_qualified_table_name, table_a_column_ra='raj2000',
-                     table_a_column_dec='dej2000', table_b_full_qualified_name='catalogue.mer_catalogue',
-                     table_b_column_ra='right_ascension', table_b_column_dec='declination, radius=1.0, background=True)
+  >>> job = Euclid.cross_match_basic(table_a_full_qualified_name=full_qualified_table_name, table_a_column_ra='raj2000', table_a_column_dec='dej2000', 
+table_b_full_qualified_name='catalogue.mer_catalogue',table_b_column_ra='right_ascension', table_b_column_dec='declination, radius=1.0, background=True)
   >>> result = job.get_results()
 
 This method updates the user table metadata to flag the positional RA/Dec columns and launches the positional
@@ -663,13 +613,10 @@ Therefore, the size of the output can be quite large.
 By default, this method targets the main catalogue associated to each environment (PDR, OTF, REG and IDR) using a cone
 search radius of 1.0 arcseconds. Therefore, the above example can also be simplified as follows
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
 
-  >>> Euclid.login()
+
   >>> full_qualified_table_name = 'user_<your_login_name>.my_sources'
-  >>> job = Euclid.cross_match_basic(table_a_full_qualified_name=full_qualified_table_name, table_a_column_ra='raj2000',
-                                   table_a_column_dec='dej2000')
+  >>> job = Euclid.cross_match_basic(table_a_full_qualified_name=full_qualified_table_name, table_a_column_ra='raj2000', table_a_column_dec='dej2000')
   >>> result = job.get_results()
 
 
