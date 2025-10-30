@@ -383,7 +383,6 @@ This method...
 .. image:: images/astroquery_cutout_example.png
    :align: center
    :scale: 100%
-   :alt: astroquery_cutout_example.fits
 
 
 
