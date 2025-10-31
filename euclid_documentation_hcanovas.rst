@@ -377,7 +377,7 @@ This method...
 1.8 Spectra
 ^^^^^^^^^^^^^^^^^^
 
-In the Archive the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
+In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
 `Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section in the Archive help for more information about this product).
 As it happens with accssing to other Euclid products, a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
 
@@ -387,31 +387,41 @@ As it happens with accssing to other Euclid products, a two-step approach as det
   >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
   >>> results = Euclid.launch_job_async(query).get_results()
   >>> print(results)
-    combined_spectra_fk combined_spectra_product_fk            datalabs_path                dec_obj      ...      source_id      spectra_source_oid to_be_published
+  combined_spectra_fk combined_spectra_product_fk            datalabs_path                dec_obj      ...      source_id      spectra_source_oid to_be_published
   ------------------- --------------------------- ----------------------------------- ---------------- ... ------------------- ------------------ ---------------
-                  161                        6196 /data/euclid_q1/Q1_R1/SIR/102159190 66.1384909361934 ... 2681776148661384909              67276               1
-                  161                        6197 /data/euclid_q1/Q1_R1/SIR/102159190 66.1553127834779 ... 2673627920661553127              67282               1
-                  161                        6197 /data/euclid_q1/Q1_R1/SIR/102159190 66.1422388136792 ... 2674023920661422388              67284               1
+                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2289618502955 ... 2673097098662289618              66176               1
+                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2274291214739 ... 2674964457662274291              66197               1
+                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2304517166735 ... 2675062482662304517              66201               1
+
 
 **Step 2:** Retrieve the spectra associated to the sources listed in the table above.
 
-The following example shows how to retrieve the DataLink products (1D Spectra) associated with the previous sources (IDs).
+Second, we use the get_spectrum_ method to download the spectra. The output is stored in a tabular fits, that we recommend to read with the Astropy Table package as detailed below.
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
+# Download the spectra ======================================
+>>> inp_source = str(res['source_id'][0])  # Note: the input of get_spectrum must be an string.
+>>> dl_out     = Euclid.get_spectrum(source_id=inp_source, retrieval_type = "SPECTRA_RGS", verbose = True)
+>>> print(f'Spectra downloaded and saved in: {dl_out}')
 
-  >>> files = Euclid.get_spectrum(retrieval_type='SPECTRA_BGS', source_id='2675005060662306333')
-  >>> from astropy.io import fits
-  >>> print(fits.info(files[0]))  # doctest: +IGNORE_OUTPUT
-  Filename: /home/astroquery/temp_20250225_204959/2675005060662306333.fits
-  No.    Name      Ver    Type      Cards   Dimensions   Format
-    0  PRIMARY       1 PrimaryHDU       4   ()
-    1  2675005060662306333    1 BinTableHDU     35   531R x 6C   [1E, 1E, 1J, 1E, 1E, 1I]
-  None
+>>> # Read the spectra and convert it to Astropy table ==========
+>>> path_to_fits = dl_out[0]
+>>> spec         = Table.read(dl_out[0], format = 'fits')
+
+>>> # Plot the spectra ==========================================
+>>> fontsize = 18
+>>> plt.figure(figsize = [20,5])
+>>> plt.plot(spec['WAVELENGTH'], spec['SIGNAL'], linewidth = 3, label = f"Source: {spec_head['SOURC_ID']}")
+>>> plt.xlabel(f"WAVELENGTH [{spec['WAVELENGTH'].unit}]", fontsize = fontsize)
+>>> plt.ylabel('SIGNAL', fontsize = fontsize)
+>>> plt.xticks(fontsize = fontsize)
+>>> plt.yticks(fontsize = fontsize)
+>>> plt.legend(fontsize = fontsize)
+>>> plt.show()
 
 
-A fits file is made if no file name is provided.
-
+.. image:: images/cutout_example.png
+   :align: center
+   :width: 500px
 
 
 
