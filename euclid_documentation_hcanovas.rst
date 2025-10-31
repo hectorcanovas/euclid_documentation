@@ -337,7 +337,7 @@ and their sky coverage (in its "fov" field). In the query below note:
 
 
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
-   :align: center
+   :align: right
    :scale: 100%
 
 
@@ -372,7 +372,7 @@ This method...
 
 .. image:: images/cutout_example.png
    :align: center
-   :scale: 0.5%
+   :width: 500px
 
 
 
@@ -390,6 +390,8 @@ This method...
 .. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
 .. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
 .. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
+.. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
+.. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
 .. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
@@ -408,18 +410,19 @@ This method...
 2. Authenticated access
 -----------------------
 
-Authenticated users are able to access to TAP+ capabilities (shared tables, persistent jobs, etc.) In order to
-authenticate a user, ``login`` method must be called. After a successful authentication, the user will be authenticated
-until the ``logout`` method is called.
+Authenticated (registered) users have access to all the `TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ capabilities (like sharing tables, persistent jobs, and more). The login_ and logout_
+methods allow to access as a registered user and close the user session, respectively. 
 
-All the methods detailed above are applicable for authenticated users, who benefit from the following advantages:
+All the methods listed above are applicable for authenticated users, who also benefit from the following advantages:
 
 * Asynchronous results are kept at the server side forever (until the user decides to remove one of them).
 
-Coming soon::
+With Euclid DR1 the following features that are already available in the `Astroquery.Gaia <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ (see its "Section 2: Authenticated access")
+package will also be available:
 
 * User space management: table upload and sharing capabilities.
-* It is possible to use the built-in cross-match functionality that streamline the generation of basic positional cross-matches between tables.
+
+* Bulit-in cross-match functionality.
 
 
 2.1. Login/Logout
@@ -436,69 +439,19 @@ There are several ways to log in to the Euclid archive, as detailed below:
 
 
 
-2.2. User space management: table upload
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Registered users can store up to 1 GB of tables in their user space by means of the upload_table_ method. The table to be uploaded can be a table stored in a
-local file in the user machine, a pre-computed Astropy table file or a job executed in the Euclid archive. As a good practise, we recommend avoiding capital letters and non-standard UTF-8 characters when assiging the name to the table that will be stored in the user space.
-The table sharing capabilities of the Euclid and Gaia ESA Archives are identical. We therefore point to the `Astroquery.Gaia documentation <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ (see its "Section 2: Authenticat access" for reference)
-
-
-
-2.3. Tables sharing
-^^^^^^^^^^^^^^^^^^^
-
-The table sharing capabilities of the Euclid and Gaia ESA Archives are identical. We therefore point to the `Astroquery.Gaia documentation <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ (see its "Section 2: Authenticat access" for reference)
-
-
-
-2.4. Cross match
-^^^^^^^^^^^^^^^^
-The Cross-match capabilities of the Euclid and Gaia ESA Archives are identical. We therefore point to the `Astroquery.Gaia documentation <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ (see its "Section 2: Authenticat access" for reference)
-
-
-
-
-
-3. DataLink service
+3. DataLink service (Spectra)
 -----------------------------------
 
-DataLink_ is a data access protocol compliant with the IVOA_ architecture that provides a linking mechanism between
-datasets offered by different services. In practice, it can be seen and used as a web service providing the list of additional
-data products available for each object outside the main catalogue(s). For more information about the products served via
-DataLink in the Euclid ESA Archive we recommend reading the Archive DataLink tutorials available at https://eas.esac.esa.int/sas/.
+DataLink_ is a data access protocol compliant with the IVOA_ architecture that provides a linking mechanism between datasets offered by different services. In practice, it can be seen and used as a web service providing the list of additional
+data products available for each object outside the main catalogue(s). For more information about the products served via DataLink in the Euclid ESA Archive we recommend reading the Archive DataLink tutorials available at https://eas.esac.esa.int/sas/.
 
-The DataLink products are restricted to authenticated users via the `~astroquery.utils.tap.TapPlus.load_data` method.
-From SAS the Datalink service can be used to access and download 1D Spectra data.
+In the Euclid Archive the Datalink_ service is used to serve the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available). In order to access to the spectra, a two-step approach (as it happens with the Euclid products detailed in Sect. 1.6 and 1.7 above) is needed.
 
-To find out the resources associated with a given source:
+**Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
 
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> ids=["2707008224650763513"]
-  >>> datalink = Euclid.get_datalinks(ids=ids)
-  >>> print(datalink)
-             ID            linking_parameter                                          access_url                                         service_def error_message semantics     description     content_type content_length
-                                                                                                                                                                                                                   byte
-  ------------------------ ----------------- ------------------------------------------------------------------------------------------- ----------- ------------- --------- ------------------- ------------ --------------
-  sedm 2707008224650763513         SOURCE_ID https://eas.esac.esa.int/sas-dd/data?ID=sedm+2707008224650763513&RETRIEVAL_TYPE=SPECTRA_RGS                               #this  Spectra Red Source                          --
-  sedm 2707008224650763513         SOURCE_ID https://eas.esac.esa.int/sas-dd/data?ID=sedm+2707008224650763513&RETRIEVAL_TYPE=SPECTRA_BGS                               #this Spectra Blue Source                          --
-
-
-
-
-The query below retrieves a random sample of Euclid sources having spectra.
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> from astroquery.esa.euclid import Euclid
-  >>> query = f"SELECT TOP 2000 * FROM catalogue.spectra_source"
-  >>> job = Euclid.launch_job_async(query)
-  >>> results = job.get_results()
-  >>> print(f'Table size (rows): {len(results)}')
-  Table size (rows): 2000
+  >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
+  >>> results = Euclid.launch_job_async(query).get_results()
   >>> print(results)
   combined_spectra_fk combined_spectra_product_fk            datalabs_path                 dec_obj      dith_num                           file_name                           ... hdu_index      ra_obj           source_id      spectra_source_oid to_be_published
   ------------------- --------------------------- ----------------------------------- ----------------- -------- ------------------------------------------------------------- ... --------- ---------------- ------------------- ------------------ ---------------
