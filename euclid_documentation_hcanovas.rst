@@ -422,7 +422,7 @@ package will also be available:
 
 * User space management: table upload and sharing capabilities.
 
-* Bulit-in cross-match functionality.
+* Built-in cross-match functionality.
 
 
 2.1. Login/Logout
