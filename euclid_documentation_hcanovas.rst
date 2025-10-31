@@ -130,6 +130,7 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 
 1. Public access
 ---------------------------
+This is the access mode for non-registered users.
 
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
