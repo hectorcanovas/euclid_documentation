@@ -184,7 +184,7 @@ the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation ca
                       281               1 2677747417655202562  267.7747417649051 ... 1441085055363835648 0.002425010548904538   0.010827275337244202
 
 
-The example below shows how to 1) remove the row limitation, and 2) target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
+The next example shows how to 1) remove the row limitation, and 2) target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
 that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> radius           = u.Quantity(0.2, u.deg)
@@ -358,7 +358,7 @@ This method...
 
   >>> # Retrieve cutout ==============
   >>> file_path  = f"{res['file_path'][0]}/{res['file_name'][0]}"
-  >>> cutout_out = Euclid.get_cutout(file_path=file_path, instrument = 'None',id='None', coordinate='NGC 6505',radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits')
+  >>> cutout_out = Euclid.get_cutout(file_path=file_path, coordinate='NGC 6505',radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits', instrument = 'None',id='None')
   >>> cutout_out = cutout_out[0]
   >>> # Plot image ===================
   >>> hdul       = fits.open(cutout_out)
