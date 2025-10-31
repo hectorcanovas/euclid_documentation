@@ -379,7 +379,12 @@ This method...
 
 In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
 `Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section in the Archive help for more information about this product).
-As it happens with accssing to other Euclid products, a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
+
+**Notes:** As it happens when accessing to other Euclid products:
+
+* a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
+
+* Via ESA Datalabs_ you have direct access to all the Euclid products (including spectra). In other words: there is no need to download the spectra and this step can be skip.
 
 
 **Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
@@ -396,9 +401,9 @@ As it happens with accssing to other Euclid products, a two-step approach as det
 
 **Step 2:** Retrieve the spectra associated to the sources listed in the table above.
 
-Second, we use the get_spectrum_ method to download the spectra. The output is stored in a tabular fits, that we recommend to read with the Astropy Table package as detailed below.
+Second, we use the get_spectrum_ method to download the spectra. The output is stored in a tabular fits file that we recommend to read with the `Astropy Table <https://docs.astropy.org/en/stable/table/index.html>`_ package as detailed below.
 
-# Download the spectra ======================================
+>>> # Download the spectra ======================================
 >>> inp_source = str(res['source_id'][0])  # Note: the input of get_spectrum must be an string.
 >>> dl_out     = Euclid.get_spectrum(source_id=inp_source, retrieval_type = "SPECTRA_RGS", verbose = True)
 >>> print(f'Spectra downloaded and saved in: {dl_out}')
