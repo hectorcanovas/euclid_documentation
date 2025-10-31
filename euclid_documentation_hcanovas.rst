@@ -375,7 +375,7 @@ This method...
 
 
 1.8 Spectra
------------------------------------
+^^^^^^^^^^^^^^^^^^
 
 In the Archive the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
 `Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section in the Archive help for more information about this product).
