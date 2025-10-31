@@ -135,7 +135,7 @@ This is the access mode for non-registered users.
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Is is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ `TAP+ <https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables>`_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
+Is is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   >>> print(f'* Found {len(tables)} tables')
