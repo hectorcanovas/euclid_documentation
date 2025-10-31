@@ -424,9 +424,9 @@ Second, we use the get_spectrum_ method to download the spectra. The output is s
 >>> plt.show()
 
 
-.. image:: images/cutout_example.png
+.. image:: images/spectra_example.png
    :align: center
-   :width: 500px
+   :scale: 100%
 
 
 
