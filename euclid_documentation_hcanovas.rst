@@ -447,7 +447,8 @@ DataLink_ is a data access protocol compliant with the IVOA_ architecture that p
 data products available for each object outside the main catalogue(s). For more information about the products served via DataLink in the `Euclid ESA Archive <https://eas.esac.esa.int/sas/>`_ we recommend reading the Archive DataLink tutorials available at the Archive Help content (see the 
 `Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section).
 
-In the Archive the Datalink_ service is used to serve the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available). In order to access to the spectra, a two-step approach (as it happens with the Euclid products detailed in Sect. 1.6 and 1.7 above) is needed.
+In the Archive the Datalink_ service is used to serve the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available). This product is publicly available: there is no need to access as a registered user to retrieve the spectra.
+In order to access to this product, a two-step approach (as it happens with the Euclid products detailed in Sect. 1.6 and 1.7 above) is needed.
 
 **Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
 
