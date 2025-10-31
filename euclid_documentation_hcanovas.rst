@@ -135,7 +135,7 @@ This is the access mode for non-registered users.
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Is is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive. This feature allows to have a broad overview of the Archive content. To load only table names:
+Is is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ `TAP+ <https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables>`_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   >>> print(f'* Found {len(tables)} tables')
@@ -146,16 +146,6 @@ Is is possible to access to the metadata (e.g., table names, sizes, descriptions
   sedm.raw_frame
   sedm.raw_quadrant
   ...
-
-
-To load all tables metadata:
-
-  >>> tables = Euclid.load_tables()
-  >>> print(tables[0])
-  TAP Table name: ivoa.obscore
-  Description: None
-  Size (bytes): 0
-  Num. columns: 34
 
 
 To load only one table and inspect its columns:
@@ -387,27 +377,29 @@ This method...
 
 
 
-.. _TAP: http://www.ivoa.net/documents/TAP/
-.. _IVOA: http://www.ivoa.net
 .. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
-.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
-.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
-.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
-.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
-.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 .. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
-.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
-.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
-.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
-.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
-.. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
+.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
 .. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
 .. _Datalabs: https://datalabs.esa.int/
 .. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
+.. _IVOA: http://www.ivoa.net
+.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
+.. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
+.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
+.. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
+.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
+.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 .. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
+.. _TAP: http://www.ivoa.net/documents/TAP/
 .. _upload_table: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.upload_table
 .. _UCD: https://www.ivoa.net/documents/latest/UCD.html
 .. _UTypes: https://www.ivoa.net/documents/Notes/UTypesUsage/index.html
+.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
+
 
 
 
