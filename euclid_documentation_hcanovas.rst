@@ -368,11 +368,50 @@ This method...
   >>> colorbar = plt.colorbar()
   >>> hdul.close()
 
-
-
 .. image:: images/cutout_example.png
    :align: center
    :width: 500px
+
+
+
+1.8 Spectra
+-----------------------------------
+
+In the Archive the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
+`Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section in the Archive help for more information about this product).
+As it happens with accssing to other Euclid products, a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
+
+
+**Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
+
+  >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
+  >>> results = Euclid.launch_job_async(query).get_results()
+  >>> print(results)
+    combined_spectra_fk combined_spectra_product_fk            datalabs_path                dec_obj      ...      source_id      spectra_source_oid to_be_published
+  ------------------- --------------------------- ----------------------------------- ---------------- ... ------------------- ------------------ ---------------
+                  161                        6196 /data/euclid_q1/Q1_R1/SIR/102159190 66.1384909361934 ... 2681776148661384909              67276               1
+                  161                        6197 /data/euclid_q1/Q1_R1/SIR/102159190 66.1553127834779 ... 2673627920661553127              67282               1
+                  161                        6197 /data/euclid_q1/Q1_R1/SIR/102159190 66.1422388136792 ... 2674023920661422388              67284               1
+
+**Step 2:** Retrieve the spectra associated to the sources listed in the table above.
+
+The following example shows how to retrieve the DataLink products (1D Spectra) associated with the previous sources (IDs).
+
+.. Skipping authentication requiring examples
+.. doctest-skip::
+
+  >>> files = Euclid.get_spectrum(retrieval_type='SPECTRA_BGS', source_id='2675005060662306333')
+  >>> from astropy.io import fits
+  >>> print(fits.info(files[0]))  # doctest: +IGNORE_OUTPUT
+  Filename: /home/astroquery/temp_20250225_204959/2675005060662306333.fits
+  No.    Name      Ver    Type      Cards   Dimensions   Format
+    0  PRIMARY       1 PrimaryHDU       4   ()
+    1  2675005060662306333    1 BinTableHDU     35   531R x 6C   [1E, 1E, 1J, 1E, 1E, 1I]
+  None
+
+
+A fits file is made if no file name is provided.
+
 
 
 
@@ -387,6 +426,7 @@ This method...
 .. _IVOA: http://www.ivoa.net
 .. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
 .. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _get_spectrum: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_spectrum
 .. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
 .. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
 .. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
@@ -440,53 +480,6 @@ There are several ways to log in to the Euclid archive, as detailed below:
 
 
 
-3. DataLink service (Spectra)
------------------------------------
-
-DataLink_ is a data access protocol compliant with the IVOA_ architecture that provides a linking mechanism between datasets offered by different services. In practice, it can be seen and used as a web service providing the list of additional
-data products available for each object outside the main catalogue(s). For more information about the products served via DataLink in the `Euclid ESA Archive <https://eas.esac.esa.int/sas/>`_ we recommend reading the Archive DataLink tutorials available at the Archive Help content (see the 
-`Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section).
-
-In the Archive the Datalink_ service is used to serve the 1D Spectra data (noting that in Euclid Q1 only the blue part of the spectra is available). This product is publicly available: there is no need to access as a registered user to retrieve the spectra.
-In order to access to this product, a two-step approach (as it happens with the Euclid products detailed in Sect. 1.6 and 1.7 above) is needed.
-
-**Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
-
-  >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
-  >>> results = Euclid.launch_job_async(query).get_results()
-  >>> print(results)
-  combined_spectra_fk combined_spectra_product_fk            datalabs_path                 dec_obj      dith_num                           file_name                           ... hdu_index      ra_obj           source_id      spectra_source_oid to_be_published
-  ------------------- --------------------------- ----------------------------------- ----------------- -------- ------------------------------------------------------------- ... --------- ---------------- ------------------- ------------------ ---------------
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2272115578693        3 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       355 267.261146414289 2672611464662272115              66161               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190   66.230432248046        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       557 267.319331443563 2673193314662304322              66179               1
-                  161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190  66.2259968885041        4 EUC_SIR_W-COMBSPEC_102159190_2024-11-05T16:27:45.906227Z.fits ...       679  267.39974379438 2673997437662259968              66185               1
-                  ...                         ...                                 ...               ...      ...                                                           ... ...       ...              ...                 ...                ...             ...
-  Length = 2000 rows
-  >>> print("source ids:")
-  >>> print(results['source_id'])
-  <Column name='source_id' dtype='int64' length=200>
-  2672611464662272115
-  2673193314662304322
-  2673997437662259968
-                  ...
-
-
-The following example shows how to retrieve the DataLink products (1D Spectra) associated with the previous sources (IDs).
-
-.. Skipping authentication requiring examples
-.. doctest-skip::
-
-  >>> files = Euclid.get_spectrum(retrieval_type='SPECTRA_BGS', source_id='2675005060662306333')
-  >>> from astropy.io import fits
-  >>> print(fits.info(files[0]))  # doctest: +IGNORE_OUTPUT
-  Filename: /home/astroquery/temp_20250225_204959/2675005060662306333.fits
-  No.    Name      Ver    Type      Cards   Dimensions   Format
-    0  PRIMARY       1 PrimaryHDU       4   ()
-    1  2675005060662306333    1 BinTableHDU     35   531R x 6C   [1E, 1E, 1J, 1E, 1E, 1I]
-  None
-
-
-A fits file is made if no file name is provided.
 
 
 .. _appendix:
