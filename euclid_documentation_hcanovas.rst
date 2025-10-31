@@ -493,7 +493,7 @@ There are several ways to log in to the Euclid archive, as detailed below:
   >>> Euclid.logout()
 
 
-
+Note: to delete the jobs stored in the user space please see the Gaia Archive FAQ `Is it possible to delete all the jobs (or a selection of them) in my job list at once? <https://www.cosmos.esa.int/web/gaia/faqs#delete-jobs-2020>`_
 
 
 
