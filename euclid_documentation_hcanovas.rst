@@ -372,7 +372,7 @@ This method...
 
 .. image:: images/cutout_example.png
    :align: center
-   :scale: 0.05%
+   :scale: 0.5%
 
 
 
