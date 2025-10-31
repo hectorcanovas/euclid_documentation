@@ -415,7 +415,7 @@ Second, we use the get_spectrum_ method to download the spectra. The output is s
 >>> # Plot the spectra ==========================================
 >>> fontsize = 18
 >>> plt.figure(figsize = [20,5])
->>> plt.plot(spec['WAVELENGTH'], spec['SIGNAL'], linewidth = 3, label = f"Source: {spec_head['SOURC_ID']}")
+>>> plt.plot(spec['WAVELENGTH'], spec['SIGNAL'], linewidth = 3, label = f"Source: {inp_source}")
 >>> plt.xlabel(f"WAVELENGTH [{spec['WAVELENGTH'].unit}]", fontsize = fontsize)
 >>> plt.ylabel('SIGNAL', fontsize = fontsize)
 >>> plt.xticks(fontsize = fontsize)
