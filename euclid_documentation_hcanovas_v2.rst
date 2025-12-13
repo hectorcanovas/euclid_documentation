@@ -274,7 +274,7 @@ and their sky coverage (in its "fov" field) is queried. Please note:
 
 * Given the size of the Euclid FITS images (~1.4 GB for the MER images and ~7 GB for calibrated VIS images) downloading individual files is time consuming (depending on the internet bandwith).
 
-* If using ESA Datalab, where direct access to the products is feasible, this step can be skipped.
+* This step can be skipped if using ESA Datalabs_ (as direct access to the products is possible). 
 
 
   >>> file_name = res['file_name'][0]
@@ -304,7 +304,7 @@ and their sky coverage (in its "fov" field) is queried. Please note:
 1.7. MER Cutouts
 ^^^^^^^^^^^^^^^^^^
 
-It is also possible to download just small portions of the MER (background subtracted) images. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally - for reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB. In the example below, the results of Step 1 above are combined with the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table to create the main input of the get_cutout_ method.
+It is also possible to download just small portions of the MER (background subtracted) images. The get_cutout_ allows to download image cutouts and store them locally - for reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB. In the example below, the results of Step 1 above are combined with the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table to create the main input of the get_cutout_ method.
 
 **Notes:**
 This method... 
@@ -343,10 +343,10 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 
 * a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
 
-* Via ESA Datalabs_ you have direct access to all the Euclid products (including spectra). In other words: there is no need to download the spectra and this step can be skip.
+* Downloading of products is not needed when using ESA Datalabs_.
 
 
-**Step 1:** First, you need to know the sources that have associated spectra. This information is included in the spectra_source table. Then, you can retrieve their associate
+**Step 1:** First, it is needed to know the sources that have associated spectra. This information is included in the spectra_source table:
 
   >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
   >>> results = Euclid.launch_job_async(query).get_results()
