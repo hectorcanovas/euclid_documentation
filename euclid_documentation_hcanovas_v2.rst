@@ -422,12 +422,8 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 2. Authenticated access
 -----------------------
 
-Authenticated (registered) users have access to all the `TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ capabilities (like sharing tables, persistent jobs, and more). The login_ and logout_
-methods allow to access as a registered user and close the user session, respectively. 
-
-All the methods listed above are applicable for authenticated users, who also benefit from the following advantages:
-
-* Asynchronous results are kept at the server side forever (until the user decides to remove one of them).
+Authenticated (registered) users have access to all the `TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ capabilities (such as sharing tables, persistent jobs, and more). All the methods
+listed above are applicable to authenticated users, who also benefit from the the advantage of having the asynchronous jobs stored in the user area forever (until the user decides to remove them).
 
 With Euclid DR1 the following features that are already available in the `Astroquery.Gaia <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ (see its "Section 2: Authenticated access")
 package will also be available:
@@ -450,7 +446,7 @@ There are several ways to log in to the Euclid archive, as detailed below:
   >>> Euclid.logout()
 
 
-Note: to delete the jobs stored in the user space please see the Gaia Archive FAQ `Is it possible to delete all the jobs (or a selection of them) in my job list at once? <https://www.cosmos.esa.int/web/gaia/faqs#delete-jobs-2020>`_
+Note: to delete all the jobs stored in the user space please see the Gaia Archive FAQ `Is it possible to delete all the jobs (or a selection of them) in my job list at once? <https://www.cosmos.esa.int/web/gaia/faqs#delete-jobs-2020>`_
 
 
 
