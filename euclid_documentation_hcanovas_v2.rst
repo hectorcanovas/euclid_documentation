@@ -18,42 +18,7 @@ gravity and the nature of dark energy and dark matter.
 Please take note of our `guide <https://www.cosmos.esa.int/web/euclid/data-credits-acknowledgements>`_ on how
 to acknowledge and cite Euclid data if you use public Euclid data in your paper.
 
-**hcanovas: remove this paragraph. WHY: it provides too much detail about the mission (compared to other Astroquery pages).
-Proposal: add it to the Euclid Archive Help pages (location to be decided):**
-The `Euclid Survey <https://www.euclid-ec.org/public/data/surveys/>`_ is done in a 'step-and-stare' mode, where the telescope
-points to a position on the sky and then imaging and spectroscopic measurements are performed on an area of ~0.48 deg\ :sup:`2`
-around this position. The telescope consists of two cameras, the visible instrument (VIS) and the Near Infrared Spectrometer
-and Photometer (NISP) instrument that observe simultaneously using a light splitting dichroic.
-For the survey standard operating mode, the telescope undertakes a 4-point dither pattern. At each position VIS and NISP
-each take a 560s exposure, consisting of a direct visible image and a red grism exposure. This is followed by further
-NISP exposures in the Y, J, and H band filters (87 seconds each). The telescope is then dithered, and the sequence is
-repeated starting with a different grism position angle. There are actually two operational grisms oriented 180 degrees
-from each other. Each grism will be used twice in this sequence, but with slight angular offsets (+/- 4 degrees),
-effectively creating the four different grism angles
-(`Scaramella et al. 2022, A&A 662, A112 <https://ui.adsabs.harvard.edu/abs/2022A%26A...662A.112E/abstract>`_).
-This standard four-dithers operating mode sequence is called a single observation and all the individual exposures
-associated with each observation are organized by Observation ID in the archive. The
-`Science Ground Segment <https://www.euclid-ec.org/public/data/ground-segment/>`_ also processes all of its
-imaging into merged mosaics, which can contain multiple different observations. All products associated with these
-mosaics are organized by Tile ID in the archive.
-
-**hcanovas: remove the following four paragraphs (and example). WHY: it is not intended for public users. None of the astroquery pages provides info like this.
-Proposal: Add it to the EC Help content & EC datalabs:** The Euclid Science Archive has several environments
-serving different purposes for the `Euclid Consortium <https://www.euclid-ec.org/>`_ members.
-
-1. The OTF ("on-the-fly") environment of the Euclid science archive, first started at the start of science operation exposed data as processed by
-the SGS (Science Ground Segment) soon after acquisition to provide an access as soon as possible. In this environment
-the data will not be reprocessed and the processing is therefore heterogeneous.
-
-2. The REG (for non-regression testing) environment of the Euclid science archive, where a large area in the sky is processed with the same version for
-all data products. The first campaign was run in September 2024, for area of about 500 square degrees (~1000
-observations), the next campaign shall be run in March-April 2025.
-
-3. The IDR (Internal Data Release) environment of the Euclid science archive holds the data that will then become public. The first release Q1
-opened on the 6th of November 2024, with a first pass on the three Euclid deep fields (EDFN, EDFS and EDFF) as well as
-observations on the Lynds Dark Nebula LDN1641.
-
-4. The PDR (Public Data Release) environment of the Euclid science archive holds the public data. Euclid Q1_ data was publicly released on March 19,
+The PDR (Public Data Release) environment of the Euclid science archive holds the public data. Euclid Q1_ data was publicly released on March 19,
 2025. The main component of the Q1_ data contains Level 2 data of a single visit (at the depth of the Euclid Wide
 Survey) over the Euclid Deep Fields (EDFs): 20 deg\ :sup:`2` of the EDF North, 10 deg\ :sup:`2` of EDF Fornax, and
 23 deg\ :sup:`2` of the EDF South. The deep fields will be visited multiple times during the mission.
@@ -63,12 +28,7 @@ By default, the object *Euclid*
 
   >>> from astroquery.esa.euclid import Euclid
 
-makes use of the *PDR* environment. In order to make use of a different one, it is necessary to instantiate the class EuclidClass
-
-  >>> from astroquery.esa.euclid import EuclidClass
-  >>> euclid = EuclidClass(environment='IDR')
-
-The parameter *environment* is limited to *IDR*, *OTF*, *PDR* or *REG*.
+makes use of the *PDR* environment. 
 
 
 **Astroquery.esa.euclid**
