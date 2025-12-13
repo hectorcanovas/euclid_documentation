@@ -437,7 +437,7 @@ The example below shows how to delete all the jobs in the user area using the li
 >>> Euclid.remove_jobs(job_ids)
 
 
-Alternatively, it is possible to take advantage of the job metadata to for example delete all the jobs that were launched after a given date:
+It is also possible to take advantage of the job metadata to delete all the jobs that were launched within a given date range:
 
 >>> job_obj  = [Euclid.load_async_job(jobid=jobid) for jobid in job_ids]
 >>> job_ids  = [job.jobid        for job in job_obj]
