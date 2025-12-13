@@ -65,7 +65,7 @@ shares a similar architecture and methods with this module. For information abou
 
 **Euclid data and data access**
 
-Euclid Q1_ contains different types of data, like catalogues (data tables), images, and spectra. For details, please refer to the `Data products in the science archive <https://s2e2.cosmos.esa.int/www/euclid_iscience/Data_products_in_the_science_archive.html>`_ in the `Euclid Archive Help <https://s2e2.cosmos.esa.int/www/euclid_iscience/Public_User_Guide.html>`_ , as well as the Q1 Data Product Definition Document (DPDD_). 
+Euclid Q1_ contains different types of data, like catalogues (data tables), images, and (only the red part of the NISP) spectra. For details, please refer to the `Data products in the science archive <https://s2e2.cosmos.esa.int/www/euclid_iscience/Data_products_in_the_science_archive.html>`_ in the `Euclid Archive Help <https://s2e2.cosmos.esa.int/www/euclid_iscience/Public_User_Guide.html>`_ , as well as the Q1 Data Product Definition Document (DPDD_). 
 
 This Astroquery package is mostly geared to query and retrieve the data stored in the catalogues, but it also includes dedicated methods to retrieve the images and spectra (both stored as large FITS files). The latter are served via the DataLink_ IVOA_ protocol - see Sect. 3 below). It is also possible to directly access to these products (without having to retrieve them) using the "Euclid Q1" datalab that is publicly available in the ESA Datalabs_ e-science platform. Users aiming to analyse large Euclid datasets are encouraged to use this platform.
 
@@ -336,7 +336,7 @@ This method...
 1.8 Spectra
 ^^^^^^^^^^^^^^^^^^
 
-In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part of the spectra is available) is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
+In the Archive the 1D Spectra data  is served via the the Datalink_ (a data access protocol compliant with the IVOA_ architecture) service. Programmatically, this product is accessible via the get_spectrum_ method (see the 
 `Access to spectra <https://s2e2.cosmos.esa.int/www/ek_iscience/Access_to_spectra.html>`_ section in the Archive help for more information about this product).
 
 **Notes:** As it happens when accessing to other Euclid products:
@@ -346,7 +346,7 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 * downloading of products is not needed when using ESA Datalabs_.
 
 
-**Step 1:** First, a list of sources that have associated spectra must be compiled. This information is avaiable in the spectra_source table:
+**Step 1:** First, a list of sources that have associated spectra must be compiled. This information is avaiable in the spectra_source table, that also includes the FITs file name and other metadata that is relevant if reading the spectra from Datalabs_:
 
   >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
   >>> results = Euclid.launch_job_async(query).get_results()
@@ -356,6 +356,17 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2289618502955 ... 2673097098662289618              66176               1
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2274291214739 ... 2674964457662274291              66197               1
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2304517166735 ... 2675062482662304517              66201               1
+
+
+Alternatively, the get_datalinks_ method can be used to find out if a given source has associated spectra products, as well as to return its Datalabs_-related metadata:
+
+
+  >>> result = Euclid.get_datalinks(ids=2707008224650763513, extra_options='METADATA')
+  >>> print(results)
+             ID            linking_parameter                                       access_url                                            ...                           file_name                           hdu_index
+  ------------------------ ----------------- ------------------------------------------------------------------------------------------- ... ------------------------------------------------------------- ---------
+  sedm 2707008224650763513         SOURCE_ID https://eas.esac.esa.int/sas-dd/data?ID=sedm+2707008224650763513&RETRIEVAL_TYPE=SPECTRA_RGS ... EUC_SIR_W-COMBSPEC_102158586_2024-11-05T16:05:44.880543Z.fits      1602
+  sedm 2707008224650763513         SOURCE_ID https://eas.esac.esa.int/sas-dd/data?ID=sedm+2707008224650763513&RETRIEVAL_TYPE=SPECTRA_BGS ... EUC_SIR_W-COMBSPEC_102158586_2024-11-05T16:05:44.880543Z.fits      1602
 
 
 **Step 2:** Retrieve the spectra associated to the list of sources compiled in the previous step using the get_spectrum_ method. The output is stored in a tabular fits file that can be open with the `Astropy Table <https://docs.astropy.org/en/stable/table/index.html>`_ package as detailed below.
@@ -384,8 +395,6 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 .. image:: images/spectra_example.png
    :align: center
    :scale: 100%
-
-NOTE to HCANOVAS: Add reference to notebooks in datalabs.
 
 
 
@@ -475,15 +484,16 @@ Reference/API
 .. _IVOA: http://www.ivoa.net
 .. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
 .. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _get_datalinks: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_datalinks
 .. _get_spectrum: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_spectrum
 .. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
 .. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
 .. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
 .. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
 .. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
-.. _remove_jobs: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.remove_jobs
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
 .. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+.. _remove_jobs: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.remove_jobs
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
 .. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
 .. _TAP: http://www.ivoa.net/documents/TAP/
