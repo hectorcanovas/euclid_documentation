@@ -343,10 +343,10 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 
 * a two-step approach as detailed in Sect. 1.6 and 1.7 above is needed.
 
-* Downloading of products is not needed when using ESA Datalabs_.
+* downloading of products is not needed when using ESA Datalabs_.
 
 
-**Step 1:** First, it is needed to know the sources that have associated spectra. This information is included in the spectra_source table:
+**Step 1:** First, a list of sources that have associated spectra must be compiled. This information is avaiable in the spectra_source table:
 
   >>> query   = f"SELECT TOP 3 * FROM catalogue.spectra_source"
   >>> results = Euclid.launch_job_async(query).get_results()
@@ -358,9 +358,7 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
                   161                        6170 /data/euclid_q1/Q1_R1/SIR/102159190 66.2304517166735 ... 2675062482662304517              66201               1
 
 
-**Step 2:** Retrieve the spectra associated to the sources listed in the table above.
-
-Second, we use the get_spectrum_ method to download the spectra. The output is stored in a tabular fits file that we recommend to read with the `Astropy Table <https://docs.astropy.org/en/stable/table/index.html>`_ package as detailed below.
+**Step 2:** Retrieve the spectra associated to the list of sources compiled in the previous step using the get_spectrum_ method. The output is stored in a tabular fits file that can be open with the `Astropy Table <https://docs.astropy.org/en/stable/table/index.html>`_ package as detailed below.
 
 >>> # Download the spectra ======================================
 >>> inp_source = str(res['source_id'][0])  # Note: the input of get_spectrum must be an string.
