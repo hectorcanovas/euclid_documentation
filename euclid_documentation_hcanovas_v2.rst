@@ -385,40 +385,7 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
    :align: center
    :scale: 100%
 
-
-
-
-.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
-.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
-.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
-.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
-.. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
-.. _Datalabs: https://datalabs.esa.int/
-.. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
-.. _IVOA: http://www.ivoa.net
-.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
-.. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
-.. _get_spectrum: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_spectrum
-.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
-.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
-.. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
-.. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
-.. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
-
-.. _remove_jobs: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.remove_jobs
-
-.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
-.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
-.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
-.. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
-.. _TAP: http://www.ivoa.net/documents/TAP/
-.. _upload_table: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.upload_table
-.. _UCD: https://www.ivoa.net/documents/latest/UCD.html
-.. _UTypes: https://www.ivoa.net/documents/Notes/UTypesUsage/index.html
-.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
-
-
-
+NOTE to HCANOVAS: Add reference to notebooks in datalabs.
 
 
 
@@ -495,3 +462,32 @@ Reference/API
 
 .. automodapi:: astroquery.esa.euclid
     :no-inheritance-diagram:
+
+
+
+.. _ADQL: https://www.ivoa.net/documents/ADQL/20231215/index.html
+.. _cone_search: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.cone_search
+.. _DataLink: https://www.ivoa.net/documents/DataLink/20231215/index.html
+.. _DPDD: https://euclid.esac.esa.int/dr/q1/dpdd/index.html
+.. _DpdVisCalibratedQuadFrame: https://euclid.esac.esa.int/dr/q1/dpdd/visdpd/dpcards/vis_calibratedquadframe.html
+.. _Datalabs: https://datalabs.esa.int/
+.. _DpdMerBksMosaic: https://euclid.esac.esa.int/dr/q1/dpdd/merdpd/dpcards/mer_bksmosaic.html
+.. _IVOA: http://www.ivoa.net
+.. _get_product: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_product
+.. _get_cutout: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_cutout
+.. _get_spectrum: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.get_spectrum
+.. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job 
+.. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async 
+.. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
+.. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
+.. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
+.. _remove_jobs: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.remove_jobs
+.. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
+.. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
+.. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
+.. _SkyCoord: https://docs.astropy.org/en/stable/api/astropy.coordinates.SkyCoord.html
+.. _TAP: http://www.ivoa.net/documents/TAP/
+.. _upload_table: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.upload_table
+.. _UCD: https://www.ivoa.net/documents/latest/UCD.html
+.. _UTypes: https://www.ivoa.net/documents/Notes/UTypesUsage/index.html
+.. _VOTable: https://www.ivoa.net/documents/VOTable/20250116/
