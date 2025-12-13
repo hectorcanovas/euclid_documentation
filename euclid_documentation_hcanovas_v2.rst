@@ -304,7 +304,7 @@ and their sky coverage (in its "fov" field) is queried. Please note:
 1.7. MER Cutouts
 ^^^^^^^^^^^^^^^^^^
 
-In many situations, users are only interested in downloading a small portion of the MER (background subtracted) Euclid image. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally - for reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB. The workflow is similar to the retrieval of Euclid products detailed in Sect 1.6 above as the first step consists in finding the FITS files that contain the images that cover the target sky region. Therefore, for this example we start by using the results generated in the "Step 1" above and combinining the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table to create the main input of the get_cutout_ method.
+It is also possible to download just small portions of the MER (background subtracted) images. The get_cutout_ method addresses this particular case, as it allows to download image cutouts and store them locally - for reference, downloading a 1'x1'cutout takes less than one second and the downloaded fits file weights ~5.5 MB. In the example below, the results of Step 1 above are combined with the "file_path" and "file_name" values obtained from the mosaic_product TAP_ table to create the main input of the get_cutout_ method.
 
 **Notes:**
 This method... 
