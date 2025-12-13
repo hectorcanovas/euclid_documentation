@@ -24,11 +24,11 @@ Survey) over the Euclid Deep Fields (EDFs): 20 deg\ :sup:`2` of the EDF North, 1
 23 deg\ :sup:`2` of the EDF South. The deep fields will be visited multiple times during the mission.
 
 
-By default, the object *Euclid*
+By default, the object *Euclid* below makes use of the *PDR* environment:
 
   >>> from astroquery.esa.euclid import Euclid
 
-makes use of the *PDR* environment. 
+
 
 
 **Astroquery.esa.euclid**
@@ -54,10 +54,12 @@ There are limitations to the execution time and total output size that depend on
 `Why does my query time out after 90 minutes? Why is my query limited to 3 million rows? <https://www.cosmos.esa.int/web/gaia/faqs#account-limits-2020>`_ for details.
 
 
-To reduce the examples verbosity (as well as complexity), the code examples output has been trimmed
+To reduce the verbosity (as well as complexity) of this document, the output of the code examples below has been trimmed
 and only the most relevant output lines are displayed. Whenever possible, the documentation points
 to the `Astroquery.Gaia package <https://astroquery.readthedocs.io/en/latest/gaia/gaia.html>`_ that
-shares a similar architecture and methods with this module.
+shares a similar architecture and methods with this module. For information about how to install the latest version of the Astroquery package, please visit the
+`Astroquery page in PyPI <https://pypi.org/project/astroquery/>`_.
+
 
 
 
