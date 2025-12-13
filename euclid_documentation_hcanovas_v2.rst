@@ -97,7 +97,7 @@ This is the access mode for non-registered users.
 1.1. Metadata
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Is is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
+It is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
 
   >>> tables = Euclid.load_tables(only_names=True, include_shared_tables=True)
   >>> print(f'* Found {len(tables)} tables')
@@ -128,9 +128,9 @@ To load only one table and inspect its columns:
 1.2. Cone search
 ^^^^^^^^^^^^^^^^
 
-The cone_search_ method implements one of the most popular use cases when connecting to an astronomy archive: retrieving data around a projected circular region in a given sky location from a given catalogue.
+The cone_search_ method allows to easily retrieve data around a projected circular region in a given sky location from a given catalogue.
 The example below shows how to launch a 0.5 degrees radius cone search around `NGC 6505 <https://simbad.cds.unistra.fr/simbad/sim-id?Ident=NGC+6505>`_. By default, this method targets
-the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation can be removed by setting the ROW_LIMIT attribute to "-1" (see the next example below).
+the "mer_catalogue" and its outcome is restricted to 50 rows.
 
   >>> from astropy.coordinates import SkyCoord
   >>> import astropy.units as u
@@ -146,7 +146,7 @@ the "mer_catalogue" and its outcome is restricted to 50 rows. This limitation ca
                       281               1 2677747417655202562  267.7747417649051 ... 1441085055363835648 0.002425010548904538   0.010827275337244202
 
 
-The next example shows how to 1) remove the row limitation, and 2) target a different table. It also shows that the cone_search method accepts target names of coordinates, provided
+To remove the row limitation one can set the Euclid.ROW_LIMIT to "-1". The following example shows how to do this, as well as how to specify a target table. It also shows that the cone_search method accepts target names of coordinates, provided
 that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> radius           = u.Quantity(0.2, u.deg)
@@ -174,8 +174,7 @@ that the name is recognised by the Simbad, VizieR, or NED services.
 1.3. Synchronous query
 ^^^^^^^^^^^^^^^^^^^^^^
 
-This is the recommended access mode for queries that do not require excessive computation time and/or generate tables with less than 2,000 rows - for details please see the Gaia Archive FAQ:
-`Why does my query time out after 90 minutes? Why is my query limited to 3 million rows? <https://www.cosmos.esa.int/web/gaia/faqs#account-limits-2020>`_.
+This is the recommended access mode for queries that do not require excessive computation time and/or generate tables with less than 2,000 rows.
 The example below shows how to extract a subset of three sources with ellipticity larger than zero from the "mer_catalogue":
 
 
@@ -202,7 +201,7 @@ Note that deleting the "TOP 3" string in the query above will return a table wit
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the recommended mode for queries that are expected to output more than 2,000 rows and that require substantial execution time
-(noting that all the queries time out after 7200 seconds). The query results are stored in the Archive (during 72 hours for anonymous users, and on the user area until the user deletes them for registered users). The example below generates a cone search combined with a constraint applied to the ellipticity, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab). For more ADQL_ examples please have a look at the Gaia Archive Help content (in particular, the `writting queries <https://www.cosmos.esa.int/web/gaia-users/archive/writing-queries>`_ section). 
+(noting that all the queries time out after 7200 seconds). The query results are stored in the Archive (although for anonymous users the jobs are automatically deleted after 72 hours). The example below generates a cone search combined with a constraint applied to the ellipticity, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab). For more ADQL_ examples please have a look at the Gaia Archive Help content (in particular, the `writting queries <https://www.cosmos.esa.int/web/gaia-users/archive/writing-queries>`_ section). 
 
 
   >>> query = "SELECT right_ascension, declination, object_id, vis_det, det_quality_flag, flux_detection_total, flux_vis_sersic, segmentation_area, kron_radius, DISTANCE(267.78, 65.53, right_ascension, declination) AS dist FROM mer_catalogue WHERE DISTANCE(267.78, 65.53, right_ascension, declination) < 0.1 AND ellipticity > 0"
