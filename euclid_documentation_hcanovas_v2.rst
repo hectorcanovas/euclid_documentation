@@ -404,6 +404,9 @@ In the Archive the 1D Spectra data (noting that in Euclid Q1 only the red part o
 .. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
 .. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
 .. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
+
+.. _remove_jobs: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.remove_jobs
+
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
 .. _query_object: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.query_object
 .. _REST: https://en.wikipedia.org/wiki/Representational_state_transfer
@@ -446,9 +449,32 @@ There are several ways to log in to the Euclid archive, as detailed below:
   >>> Euclid.logout()
 
 
-Note: to delete all the jobs stored in the user space please see the Gaia Archive FAQ `Is it possible to delete all the jobs (or a selection of them) in my job list at once? <https://www.cosmos.esa.int/web/gaia/faqs#delete-jobs-2020>`_
 
 
+2.2. Job deletion
+^^^^^^^^^^^^^^^^^
+All the asynchronous jobs launched by registered users are stored in the user area, which can store up to 10 GB of jobs. Therefore, it is recommended to remove unnecessary jobs to avoid filling up the user quota.
+The example below shows how to delete all the jobs in the user area using the list_async_jobs and remove_jobs_ methods.
+
+>>> Euclid.login()
+>>> job_ids = [job.jobid for job in Euclid.list_async_jobs()]
+>>> Euclid.remove_jobs(job_ids)
+
+
+Alternatively, it is possible to take advantage of the job metadata to for example delete all the jobs that were launched after a given date:
+
+>>> job_obj  = [Euclid.load_async_job(jobid=jobid) for jobid in job_ids]
+>>> job_ids  = [job.jobid        for job in job_obj]
+>>> dates    = [job.creationTime for job in job_obj]
+>>> # Create Data Frame ================
+>>> df              = pd.DataFrame.from_dict({'job_id':job_ids, 'fulldate':dates})
+>>> df['date_time'] = pd.to_datetime(df['fulldate'])
+>>> df['date']      = df['date_time'].dt.date
+>>> df['hour_UTC']  = df['date_time'].dt.hour
+>>> # Select jobs executed on 2024-10-01 at 7 hours UTC  ======
+>>> subset          = df[(df['date'] == datetime.date(2024,10,1)) & (df['hour_UTC'].isin([7]))]
+>>> jobs_to_delete  = subset['job_id'].to_list()
+>>> Euclid.remove_jobs(jobs_to_delete)    # Delete selected jobs 
 
 .. _appendix:
 
