@@ -302,7 +302,6 @@ and their sky coverage (in its "fov" field) is queried using ADQL_. Please note:
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
    :align: right
    :scale: 100%
-   :alt: EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
 
 
 1.7. MER Cutouts
@@ -334,7 +333,6 @@ This method...
 .. image:: images/cutout_example.png
    :align: center
    :width: 500px
-   :alt: cutout_example.png
 
 
 1.8 Spectra
@@ -399,7 +397,6 @@ Alternatively, the get_datalinks_ method can be used to find out if a given sour
 .. image:: images/spectra_example.png
    :align: center
    :scale: 100%
-   :alt: spectra_example.png
 
 
 2. Authenticated access
