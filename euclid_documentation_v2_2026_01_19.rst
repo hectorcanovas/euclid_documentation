@@ -300,7 +300,7 @@ and their sky coverage (in its "fov" field) is queried using ADQL_. Please note:
 
 
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
-   :align: right
+   :align: center
    :scale: 100%
 
 
