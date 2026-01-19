@@ -9,8 +9,7 @@ ESA EUCLID Archive (`astroquery.esa.euclid`)
 ********************************************
 
 
-The Euclid mission
-^^^^^^^^^^^^^^^^^^
+**The Euclid mission**
 
 `Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
 The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
