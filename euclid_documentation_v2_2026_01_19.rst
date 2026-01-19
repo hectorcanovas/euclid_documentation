@@ -1,5 +1,9 @@
 .. _astroquery.esa.euclid:
 
+.. almost all code examples require remote-data access, thus only using this
+   one at the very top
+.. doctest-remote-data-all::
+
 ********************************************
 ESA EUCLID Archive (`astroquery.esa.euclid`)
 ********************************************
