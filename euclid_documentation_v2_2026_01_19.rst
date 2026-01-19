@@ -95,11 +95,11 @@ It is recommended checking the status of Euclid TAP_ before executing this modul
 
 
 1. Public access
----------------------------
+----------------
 This is the access mode for non-registered (also known as "anonymous" in this document) users.
 
 1.1. Metadata
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
 
 It is possible to access to the metadata (e.g., table names, sizes, descriptions, column names, etc.) of all the TAP_ tables stored in the Archive using the load_tables_ method. This feature allows to have a broad overview of the Archive content. To load only table names:
 
