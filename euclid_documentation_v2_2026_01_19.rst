@@ -1,11 +1,16 @@
 .. _astroquery.esa.euclid:
 
+.. almost all code examples require remote-data access, thus only using this
+   one at the very top
+.. doctest-remote-data-all::
+
 ********************************************
 ESA EUCLID Archive (`astroquery.esa.euclid`)
 ********************************************
 
 
-**The Euclid mission**
+The Euclid mission
+##################
 
 `Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
 The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
@@ -31,7 +36,8 @@ By default, the object *Euclid* below makes use of the *PDR* environment:
 
 
 
-**Astroquery.esa.euclid**
+Astroquery.esa.euclid
+#####################
 
 This Python module provides an Astroquery API to access to the metadata and datasets provided by the
 `European Space Agency Euclid Archive <https://eas.esac.esa.int/sas/>`_ using a `TAP+ <https://astroquery.readthedocs.io/en/latest/utils/tap.html>`_ REST service.
@@ -62,8 +68,8 @@ shares a similar architecture and methods with this module. For information abou
 
 
 
-
-**Euclid data and data access**
+Euclid data and data access
+###########################
 
 Euclid Q1_ contains different types of data, like catalogues (data tables), images, and (only the red part of the NISP) spectra. For details, please refer to the `Data products in the science archive <https://s2e2.cosmos.esa.int/www/euclid_iscience/Data_products_in_the_science_archive.html>`_ in the `Euclid Archive Help <https://s2e2.cosmos.esa.int/www/euclid_iscience/Public_User_Guide.html>`_ , as well as the Q1 Data Product Definition Document (DPDD_).
 
@@ -82,9 +88,6 @@ Examples
 
 It is recommended checking the status of Euclid TAP_ before executing this module. To do this:
 
-.. almost all code examples require remote-data access, thus only using this
-   one at the first example
-.. doctest-remote-data::
 
   >>> from astroquery.esa.euclid import Euclid
   >>> Euclid.get_status_messages()
