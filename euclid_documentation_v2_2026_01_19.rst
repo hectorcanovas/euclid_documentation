@@ -154,7 +154,7 @@ To remove the row limitation one can set the Euclid.ROW_LIMIT to "-1". The follo
 that the name is recognised by the Simbad, VizieR, or NED services.
 
   >>> radius           = u.Quantity(0.2, u.deg)
-  >>> Euclid.ROW_LIMIT = -1               # Set this attribute to -1 to retrieve the full output of the cone_search method.
+  >>> Euclid.ROW_LIMIT = -1
   >>> job              = Euclid.cone_search(coordinate='NGC 6505', radius=radius, table_name="sedm.calibrated_frame", ra_column_name="ra", dec_column_name="dec", async_job=True, columns = ['ra', 'dec', 'datalabs_path', 'file_path', 'file_name', 'observation_id', 'instrument_name'])
   >>> res              = job.get_results()
   >>> print(f"* Found {len(res)} results")
@@ -259,11 +259,11 @@ and their sky coverage (in its "fov" field) is queried using ADQL_. Please note:
 #. the combination of the INTERSECTS clause with the CIRCLE function. The target coordinates correspond to NGC 6505.
 
 
-  >>> radius   = 0.5/60.  # This radius sets the minimum distance between the target sky region and the image edges.
-  >>> query    = f"SELECT file_name, file_path, datalabs_path, instrument_name, filter_name, ra, dec, creation_date, product_type, patch_id_list, tile_index \
-                 FROM mosaic_product \
-                 WHERE instrument_name='VIS' AND \
-                 INTERSECTS(CIRCLE(267.7808, 65.5308, {radius}), fov)=1"
+  >>> radius   = 0.5/60.
+  >>> query    = f"""SELECT file_name, file_path, datalabs_path, instrument_name, filter_name, ra, dec, creation_date, product_type, patch_id_list, tile_index
+                 FROM q1.mosaic_product
+                 WHERE instrument_name='VIS' AND
+                 INTERSECTS(CIRCLE(267.7808, 65.5308, {radius}), fov)=1"""
 
   >>> res      = Euclid.launch_job_async(query).get_results()
   >>> print(res)
@@ -316,13 +316,14 @@ This method...
 
 * accepts both Astropy SkyCoord_ coordinates and Simbad/VizieR/NED valid names (as string).
 
+Download the cutout...
 
-
-  >>> # Retrieve cutout ==============
   >>> file_path  = f"{res['file_path'][0]}/{res['file_name'][0]}"
   >>> cutout_out = Euclid.get_cutout(file_path=file_path, coordinate='NGC 6505',radius= 0.1 * u.arcmin,output_file='ngc6505_cutout_mer.fits', instrument = 'None',id='None')
   >>> cutout_out = cutout_out[0]
-  >>> # Plot image ===================
+
+...  and inspect its content:
+
   >>> hdul       = fits.open(cutout_out)
   >>> image_data = hdul[0].data
   >>> plt.figure()
@@ -373,16 +374,19 @@ Alternatively, the get_datalinks_ method can be used to find out if a given sour
 
 **Step 2:** Retrieve the spectra associated to the list of sources compiled in the previous step using the get_spectrum_ method. The output is stored in a tabular fits file that can be open with the `Astropy Table <https://docs.astropy.org/en/stable/table/index.html>`_ package as detailed below.
 
->>> # Download the spectra ======================================
+Download the spectra:
+
 >>> inp_source = str(res['source_id'][0])  # Note: the input of get_spectrum must be a string.
 >>> dl_out     = Euclid.get_spectrum(source_id=inp_source, retrieval_type = "SPECTRA_RGS", verbose = True)
 >>> print(f'Spectra downloaded and saved in: {dl_out}')
 
->>> # Read the spectra and convert it to Astropy table ==========
+Read the spectra and convert it to Astropy table:
+
 >>> path_to_fits = dl_out[0]
 >>> spec         = Table.read(dl_out[0], format = 'fits')
 
->>> # Plot the spectra ==========================================
+Plot it:
+
 >>> fontsize = 18
 >>> plt.figure(figsize = [20,5])
 >>> plt.plot(spec['WAVELENGTH'], spec['SIGNAL'], linewidth = 3, label = f"Source: {inp_source}")
@@ -438,20 +442,26 @@ The example below shows how to delete all the jobs in the user area using the li
 >>> Euclid.remove_jobs(job_ids)
 
 
-It is also possible to take advantage of the job metadata to delete all the jobs that were launched within a given time range:
+It is also possible to take advantage of the job metadata to delete all the jobs that were launched within a given time range as explained below.
+
+First, use the load_async_job_ method to download the metadata of the async jobs stored in the user space:
 
 >>> job_obj  = [Euclid.load_async_job(jobid=jobid) for jobid in job_ids]
 >>> job_ids  = [job.jobid        for job in job_obj]
 >>> dates    = [job.creationTime for job in job_obj]
->>> # Create Data Frame ================
+
+Second, create a dataframe that contains the jobid and date information:
+
 >>> df              = pd.DataFrame.from_dict({'job_id':job_ids, 'fulldate':dates})
 >>> df['date_time'] = pd.to_datetime(df['fulldate'])
 >>> df['date']      = df['date_time'].dt.date
 >>> df['hour_UTC']  = df['date_time'].dt.hour
->>> # Select jobs executed on 2024-10-01 at 7 hours UTC  ======
+
+Finally, extract the job id's included in a given time range (in the exampe below, all the jobs stored since 2024-10-01 at 7 hours UTC) and delte them:
+
 >>> subset          = df[(df['date'] == datetime.date(2024,10,1)) & (df['hour_UTC'].isin([7]))]
 >>> jobs_to_delete  = subset['job_id'].to_list()
->>> Euclid.remove_jobs(jobs_to_delete)    # Delete selected jobs
+>>> Euclid.remove_jobs(jobs_to_delete)
 
 .. _appendix:
 
@@ -490,6 +500,7 @@ Reference/API
 .. _launch_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job
 .. _launch_job_async: https://astroquery.readthedocs.io/en/latest/api/astroquery.esa.euclid.EuclidClass.html#astroquery.esa.euclid.EuclidClass.launch_job_async
 .. _load_tables: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.load_tables
+.. _load_async_job: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.Tap.html#astroquery.utils.tap.Tap.load_async_job
 .. _login: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.login
 .. _logout: https://astroquery.readthedocs.io/en/latest/api/astroquery.utils.tap.TapPlus.html#astroquery.utils.tap.TapPlus.logout
 .. _Q1: https://www.cosmos.esa.int/web/euclid/euclid-q1-data-release
