@@ -1,7 +1,6 @@
 .. _astroquery.esa.euclid:
 
-.. almost all code examples require remote-data access, thus only using this
-   one at the very top
+.. almost all code examples require remote-data access, thus only using this one at the very top
 .. doctest-remote-data-all::
 
 ********************************************
@@ -11,6 +10,8 @@ ESA EUCLID Archive (`astroquery.esa.euclid`)
 
 The Euclid mission
 ##################
+
+
 
 `Euclid <https://www.cosmos.esa.int/web/euclid>`_ is a Medium class ESA mission to map the geometry of the dark Universe.
 The mission investigates the distance-redshift relationship and the evolution of cosmic structures. The space telescope is
@@ -205,7 +206,7 @@ Note that deleting the "TOP 3" string in the query above will return a table wit
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This is the recommended mode for queries that are expected to output more than 2,000 rows and that require substantial execution time
-(noting that all the queries time out after 7200 seconds). The query results are stored in the Archive (although for anonymous users the jobs are automatically deleted after 72 hours). The example below generates a cone search combined with a constraint applied to the ellipticity, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab). For more ADQL_ examples please have a look at the Gaia Archive Help content (in particular, the `writting queries <https://www.cosmos.esa.int/web/gaia-users/archive/writing-queries>`_ section).
+(noting that all the queries time out after 7200 seconds). The query results are stored in the Archive (although for anonymous users the jobs are automatically deleted after 72 hours). The example below generates a cone search combined with a constraint applied to the ellipticity, and is similar to the first ADQL_ query example listed in the `Euclid Archive <https://eas.esac.esa.int/sas/>`_ (see its "Search/ADQL FORM" subtab). For more ADQL_ examples please have a look at the Gaia Archive Help content (in particular, the `writing queries <https://www.cosmos.esa.int/web/gaia-users/archive/writing-queries>`_ section).
 
 
   >>> query = "SELECT right_ascension, declination, object_id, vis_det, det_quality_flag, flux_detection_total, flux_vis_sersic, segmentation_area, kron_radius, DISTANCE(267.78, 65.53, right_ascension, declination) AS dist FROM mer_catalogue WHERE DISTANCE(267.78, 65.53, right_ascension, declination) < 0.1 AND ellipticity > 0"
@@ -457,7 +458,7 @@ Second, create a dataframe that contains the jobid and date information:
 >>> df['date']      = df['date_time'].dt.date
 >>> df['hour_UTC']  = df['date_time'].dt.hour
 
-Finally, extract the job id's included in a given time range (in the exampe below, all the jobs stored since 2024-10-01 at 7 hours UTC) and delte them:
+Finally, extract the job id's included in a given time range (in the example below, all the jobs stored since 2024-10-01 at 7 hours UTC) and delete them:
 
 >>> subset          = df[(df['date'] == datetime.date(2024,10,1)) & (df['hour_UTC'].isin([7]))]
 >>> jobs_to_delete  = subset['job_id'].to_list()
