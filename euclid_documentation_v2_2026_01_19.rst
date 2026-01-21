@@ -301,6 +301,8 @@ and their sky coverage (in its "fov" field) is queried using ADQL_. Please note:
 
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
    :align: center
+   :width:  800px
+   :height: 600px
    :scale: 100%
 
 
@@ -400,6 +402,8 @@ Plot it:
 
 .. image:: images/spectra_example.png
    :align: center
+   :width:  1000px
+   :height: 300px
    :scale: 100%
 
 
