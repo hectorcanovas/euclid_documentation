@@ -166,11 +166,10 @@ that the name is recognised by the Simbad, VizieR, or NED services.
   267.99354663 65.60351547      /data/euclid_q1/Q1_R1/NIR/2704      /euclid/repository_idr/iqr1/Q1_R1/NIR/2704         EUC_NIR_W-CAL-IMAGE_H-2704-0_20240930T191946.868701Z.fits           2704            NISP 0.11414714851731637
     ...
 
-**Notes:**
 
-* Once the table_name, and/or ra_column_name, and/or dec_column_name arguments are set, the default values are erased - this is a known issue.
-
-* Users are encouraged to use the cone_search_ instead of the query_object_ method. The latter makes use of the ADQL_ BOX function that is deprecated and can yield misleading results due to geometric projection effects.
+.. note::
+    * Once the table_name, and/or ra_column_name, and/or dec_column_name arguments are set, the default values are erased - this is a known issue.
+    * Users are encouraged to use the cone_search_ instead of the query_object_ method. The latter makes use of the ADQL_ BOX function that is deprecated and can yield misleading results due to geometric projection effects.
 
 
 
@@ -302,8 +301,6 @@ and their sky coverage (in its "fov" field) is queried using ADQL_. Please note:
 
 .. image:: images/EUC_MER_BGSUB-MOSAIC-VIS_TILE102158889-F95D3B_20241025T024806.508980Z_00.00.png
    :align: center
-   :height: 500px
-   :width: 700 px
    :scale: 100%
 
 
@@ -403,8 +400,6 @@ Plot it:
 
 .. image:: images/spectra_example.png
    :align: center
-   :height: 300px
-   :width: 1000 px
    :scale: 100%
 
 
